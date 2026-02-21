@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare Bids – Tijwaal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        body {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .bid-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .bid-card .avatar-lg {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--gold-dim);
+            border: 2px solid var(--border-gold);
+            display: grid;
+            place-items: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 0.85rem;
+        }
+
+        .bid-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .feature-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.72rem;
+            background: var(--bg-input);
+            border-radius: 100px;
+            padding: 0.2rem 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .best-badge {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: #07080D;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 0 1.25rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.25rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient">
+    <div class="navbar">
+        <a href="request.html" style="color:var(--text-muted); font-size:1.2rem; text-decoration:none;">←</a>
+        <div>
+            <div style="font-weight:700;">Compare Bids</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Electrician · Al Olaya, Riyadh</div>
+        </div>
+        <div style="margin-left:auto; display:flex; align-items:center; gap:0.75rem;">
+            <span class="badge badge-gold">⏳ 47 min left</span>
+            <div class="avatar">A</div>
+        </div>
+    </div>
+
+    <div style="margin-bottom:1.25rem;">
+        <div style="font-size:0.82rem; color:var(--text-muted);">4 providers have submitted bids for your request.</div>
+    </div>
+
+    <!-- Sort + Filter -->
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+        <span style="font-size:0.8rem; color:var(--text-muted); align-self:center;">Sort by:</span>
+        <button class="btn btn-primary btn-sm" onclick="sortBids(this, 'price')">💰 Lowest Price</button>
+        <button class="btn btn-ghost btn-sm" onclick="sortBids(this, 'rating')">⭐ Highest Rating</button>
+        <button class="btn btn-ghost btn-sm" onclick="sortBids(this, 'eta')">⏱ Fastest ETA</button>
+    </div>
+
+    <div id="bidsContainer" style="display:flex;flex-direction:column;gap:1rem;">
+
+        <!-- Bid 1 - Best Value -->
+        <div class="card card--gold" id="bid1">
+            <div class="bid-card">
+                <div class="avatar-lg">R</div>
+                <div style="flex:1;">
+                    <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.25rem;">
+                        <div style="font-weight:700;">Rami Al-Joudi</div>
+                        <span class="best-badge">⭐ Best Value</span>
+                        <span class="badge badge-success" style="font-size:0.68rem;">Verified</span>
+                    </div>
+                    <div class="stars">★★★★★</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">4.9 · 201 jobs completed · 8 years
+                        experience</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
+                        <span class="feature-chip">⚡ Licensed Electrician</span>
+                        <span class="feature-chip">🚗 Own transport</span>
+                        <span class="feature-chip">🛡 Insured</span>
+                    </div>
+                    <p style="font-size:0.82rem; margin-top:0.75rem;">"I can fix your light switch in about 30 minutes
+                        using quality Schneider components. Available now."</p>
+                </div>
+                <div style="text-align:right; flex-shrink:0;">
+                    <div class="bid-price">SAR 180</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 25 min</div>
+                    <button class="btn btn-primary btn-sm mt-2" onclick="acceptBid('Rami Al-Joudi', 180)">Accept
+                        Bid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bid 2 -->
+        <div class="card" id="bid2">
+            <div class="bid-card">
+                <div class="avatar-lg" style="background:var(--teal-dim);border-color:var(--teal);color:var(--teal);">H
+                </div>
+                <div style="flex:1;">
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                        <div style="font-weight:700;">Hassan Qureshi</div>
+                        <span class="badge badge-success" style="font-size:0.68rem;">Verified</span>
+                    </div>
+                    <div class="stars">★★★★★</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">4.8 · 142 jobs completed · 5 years</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
+                        <span class="feature-chip">⚡ Licensed Electrician</span>
+                        <span class="feature-chip">📋 Certified</span>
+                    </div>
+                    <p style="font-size:0.82rem; margin-top:0.75rem;">"Professional switch replacement with warranty on
+                        parts for 6 months."</p>
+                </div>
+                <div style="text-align:right; flex-shrink:0;">
+                    <div class="bid-price">SAR 220</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 40 min</div>
+                    <button class="btn btn-secondary btn-sm mt-2" onclick="acceptBid('Hassan Qureshi', 220)">Accept
+                        Bid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bid 3 -->
+        <div class="card" id="bid3">
+            <div class="bid-card">
+                <div class="avatar-lg" style="background:rgba(139,92,246,0.15);border-color:#8B5CF6;color:#8B5CF6;">F
+                </div>
+                <div style="flex:1;">
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                        <div style="font-weight:700;">Faisal Al-Hamdan</div>
+                        <span class="badge badge-success" style="font-size:0.68rem;">Verified</span>
+                    </div>
+                    <div class="stars">★★★★☆</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">4.5 · 67 jobs completed · 3 years</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
+                        <span class="feature-chip">⚡ Electrician</span>
+                    </div>
+                    <p style="font-size:0.82rem; margin-top:0.75rem;">"Quick and clean job guaranteed. I can be there
+                        within an hour."</p>
+                </div>
+                <div style="text-align:right; flex-shrink:0;">
+                    <div class="bid-price">SAR 150</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 50 min</div>
+                    <button class="btn btn-secondary btn-sm mt-2" onclick="acceptBid('Faisal Al-Hamdan', 150)">Accept
+                        Bid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bid 4 -->
+        <div class="card" id="bid4">
+            <div class="bid-card">
+                <div class="avatar-lg"
+                    style="background:var(--success-dim);border-color:var(--success);color:var(--success);">K</div>
+                <div style="flex:1;">
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                        <div style="font-weight:700;">Khalid Al-Mutiri</div>
+                        <span class="badge badge-warning" style="font-size:0.68rem;">New</span>
+                    </div>
+                    <div class="stars">★★★★☆</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">4.2 · 12 jobs · 1 year</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
+                        <span class="feature-chip">⚡ Electrician</span>
+                    </div>
+                    <p style="font-size:0.82rem; margin-top:0.75rem;">"Competitive price, getting established. I
+                        guarantee my work."</p>
+                </div>
+                <div style="text-align:right; flex-shrink:0;">
+                    <div class="bid-price">SAR 120</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 35 min</div>
+                    <button class="btn btn-secondary btn-sm mt-2" onclick="acceptBid('Khalid Al-Mutiri', 120)">Accept
+                        Bid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accept Confirmation Modal -->
+    <div class="modal-overlay" id="acceptModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Confirm Bid Acceptance</h3><button class="modal-close">✕</button>
+            </div>
+            <div style="text-align:center; padding:0.5rem 0 1.5rem;">
+                <div style="font-size:3rem;">✅</div>
+                <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;" id="acceptName"></div>
+                <div style="color:var(--text-muted); font-size:0.85rem; margin-top:0.25rem;">will be assigned to your
+                    job</div>
+                <div style="font-size:2rem; font-weight:800; color:var(--gold); margin-top:1rem;" id="acceptPrice">
+                </div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">+15% VAT = <span id="acceptTotal"></span></div>
+            </div>
+            <div style="display:flex; gap:0.75rem;">
+                <button class="btn btn-primary btn-block" onclick="confirmAccept()">✓ Confirm & Pay</button>
+                <button class="btn btn-ghost btn-block modal-close">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        function acceptBid(name, price) {
+            document.getElementById('acceptName').textContent = name;
+            document.getElementById('acceptPrice').textContent = `SAR ${price}`;
+            document.getElementById('acceptTotal').textContent = `SAR ${(price * 1.15).toFixed(0)}`;
+            openModal('acceptModal');
+        }
+        function confirmAccept() {
+            closeModal('acceptModal');
+            showToast('Bid accepted! Provider is on the way…', 'success');
+            setTimeout(() => window.location.href = 'tracking.html', 1200);
+        }
+        function sortBids(btn, by) {
+            document.querySelectorAll('[onclick^="sortBids"]').forEach(b => b.className = 'btn btn-ghost btn-sm');
+            btn.className = 'btn btn-primary btn-sm';
+            showToast(`Sorted by ${by}`, 'info');
+        }
+    </script>
+</body>
+
+</html>

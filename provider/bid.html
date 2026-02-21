@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Jobs – Tijwaal Provider</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        body {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .job-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            background: var(--bg-card);
+            transition: all var(--transition);
+            margin-bottom: 1rem;
+        }
+
+        .job-card:hover {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .job-category-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gold-dim);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-sm);
+            display: grid;
+            place-items: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient">
+    <div class="navbar">
+        <a href="dashboard.html" style="color:var(--text-muted);font-size:1.2rem;">←</a>
+        <div>
+            <div style="font-weight:700;">Browse Available Jobs</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Riyadh — ⚡ Electrician</div>
+        </div>
+        <div style="margin-left:auto;"><span class="badge badge-gold">12 open</span></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-3" style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+        <span style="font-size:0.82rem;font-weight:600;">Filters:</span>
+        <select class="form-control" style="width:auto;font-size:0.8rem;">
+            <option>All Categories</option>
+            <option>⚡ Electrician</option>
+            <option>🔧 Plumber</option>
+            <option>📦 Delivery</option>
+        </select>
+        <select class="form-control" style="width:auto;font-size:0.8rem;">
+            <option>Any Distance</option>
+            <option>Within 5 km</option>
+            <option>Within 10 km</option>
+            <option>Within 20 km</option>
+        </select>
+        <select class="form-control" style="width:auto;font-size:0.8rem;">
+            <option>Sort: Newest</option>
+            <option>Sort: Budget High→Low</option>
+            <option>Sort: Fewest Bids</option>
+            <option>Sort: Expires Soon</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Filters applied','info')">Apply</button>
+    </div>
+
+    <!-- Job Cards -->
+    <div id="jobsList">
+
+        <div class="job-card" id="job1">
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+                <div class="job-category-icon">⚡</div>
+                <div style="flex:1;">
+                    <div
+                        style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+                        <div>
+                            <div style="font-weight:700;">Light Switch Replacement</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">#J-7858 · Al Olaya, Riyadh</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:800;color:var(--gold);font-size:1.1rem;">~SAR 150–250</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">Customer budget</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);margin:0.5rem 0;">"Light switch in the
+                        living room stopped working. Need it replaced with a Schneider smart switch."</p>
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-top:0.75rem;">
+                        <div style="display:flex; gap:0.75rem; font-size:0.78rem; color:var(--text-muted);">
+                            <span>⏳ 52 min left</span>
+                            <span>👥 3 bids</span>
+                            <span>📍 2.1 km away</span>
+                        </div>
+                        <button class="btn btn-primary btn-sm" data-modal="bidModal"
+                            onclick="setCurrentJob('Light Switch Replacement', '#J-7858')">Place Bid →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+                <div class="job-category-icon">⚡</div>
+                <div style="flex:1;">
+                    <div
+                        style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+                        <div>
+                            <div style="font-weight:700;">Circuit Breaker Inspection</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">#J-7856 · Malaz, Riyadh</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:800;color:var(--gold);font-size:1.1rem;">~SAR 300–600</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);">"Full electrical panel check for a
+                        3-bedroom apartment. Some sockets are not working."</p>
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-top:0.75rem;">
+                        <div style="display:flex; gap:0.75rem; font-size:0.78rem; color:var(--text-muted);"><span>⏳ 38
+                                min left</span><span>👥 5 bids</span><span>📍 5.4 km away</span></div>
+                        <button class="btn btn-primary btn-sm" data-modal="bidModal"
+                            onclick="setCurrentJob('Circuit Breaker Inspection','#J-7856')">Place Bid →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+                <div class="job-category-icon">⚡</div>
+                <div style="flex:1;">
+                    <div
+                        style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+                        <div>
+                            <div style="font-weight:700;">CCTV Camera Wiring</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">#J-7854 · Al Salamah, Riyadh</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:800;color:var(--gold);font-size:1.1rem;">~SAR 500–900</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);">"Need 4 outdoor CCTV cameras wired and
+                        connected to DVR in a villa."</p>
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-top:0.75rem;">
+                        <div style="display:flex; gap:0.75rem; font-size:0.78rem; color:var(--text-muted);"><span>⏳ 1h
+                                12m left</span><span>👥 2 bids</span><span>📍 9.2 km away</span></div>
+                        <button class="btn btn-primary btn-sm" data-modal="bidModal"
+                            onclick="setCurrentJob('CCTV Camera Wiring','#J-7854')">Place Bid →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bid Submission Modal -->
+    <div class="modal-overlay" id="bidModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>💼 Submit Bid</h3><button class="modal-close">✕</button>
+            </div>
+            <div class="card card--gold mb-3" style="padding:0.75rem;">
+                <div style="font-size:0.75rem;color:var(--text-muted);">Job</div>
+                <div style="font-weight:700;" id="bidJobName">Light Switch Replacement</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);" id="bidJobId">#J-7858</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div class="form-group">
+                    <label>Your Bid Amount (SAR)</label>
+                    <input class="form-control" type="number" id="bidAmount" placeholder="e.g. 180" min="50" />
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.3rem;">Platform fee of 10% will
+                        be deducted. You receive 90%.</div>
+                </div>
+                <div class="form-group">
+                    <label>Estimated Time to Complete</label>
+                    <select class="form-control">
+                        <option>Within 30 minutes</option>
+                        <option>1-2 hours</option>
+                        <option>Half day</option>
+                        <option>Full day</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Note to Customer</label>
+                    <textarea class="form-control"
+                        placeholder="Explain why you're the best choice for this job…"></textarea>
+                </div>
+                <div class="card" style="background:var(--bg-input);">
+                    <div style="font-size:0.78rem;font-weight:600;margin-bottom:0.5rem;color:var(--text-secondary);">
+                        Earnings Preview</div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;"><span
+                            style="color:var(--text-muted);">Your Bid</span><span id="previewBid">SAR —</span></div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;"><span
+                            style="color:var(--text-muted);">Platform Fee (10%)</span><span id="previewFee"
+                            style="color:var(--danger);">—</span></div>
+                    <div
+                        style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-top:0.4rem;">
+                        <span>You Receive</span><span id="previewNet" style="color:var(--success);">SAR —</span></div>
+                </div>
+                <button class="btn btn-primary btn-block btn-lg" onclick="submitBid()">🚀 Submit Bid</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        let currentJob = { name: '', id: '' };
+        function setCurrentJob(name, id) {
+            currentJob = { name, id };
+            document.getElementById('bidJobName').textContent = name;
+            document.getElementById('bidJobId').textContent = id;
+        }
+        document.getElementById('bidAmount')?.addEventListener('input', updatePreview);
+        function updatePreview() {
+            const amt = parseFloat(document.getElementById('bidAmount').value) || 0;
+            const fee = amt * 0.1;
+            document.getElementById('previewBid').textContent = amt ? `SAR ${amt}` : 'SAR —';
+            document.getElementById('previewFee').textContent = amt ? `-SAR ${fee.toFixed(0)}` : '—';
+            document.getElementById('previewNet').textContent = amt ? `SAR ${(amt - fee).toFixed(0)}` : 'SAR —';
+        }
+        function submitBid() {
+            const amt = document.getElementById('bidAmount').value;
+            if (!amt) { showToast('Enter your bid amount', 'warning'); return; }
+            closeModal('bidModal');
+            showToast(`Bid of SAR ${amt} submitted for ${currentJob.name}!`, 'success');
+        }
+    </script>
+</body>
+
+</html>

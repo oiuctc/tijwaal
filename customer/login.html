@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Login – Tijwaal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212, 168, 67, 0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .login-box {
+            width: min(420px, 92vw);
+            background: rgba(13, 21, 37, 0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .method-tabs {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-tab {
+            flex: 1;
+            padding: 0.65rem 0;
+            text-align: center;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+        }
+
+        .method-tab.active {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .method-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+        }
+
+        .beta-badge {
+            display: inline-block;
+            font-size: 0.62rem;
+            font-weight: 800;
+            background: var(--teal-dim);
+            color: var(--teal);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+            border-radius: 100px;
+            padding: 1px 7px;
+            margin-left: 0.35rem;
+            vertical-align: middle;
+            letter-spacing: 0.04em;
+        }
+
+        .otp-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .otp-input {
+            width: 52px;
+            height: 56px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            transition: all var(--transition);
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-dim);
+        }
+
+        .phone-flag {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+            padding: 0.7rem 0.75rem;
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .phone-wrap {
+            display: flex;
+        }
+
+        .phone-wrap input {
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            border-left: none;
+        }
+
+        .method-panel {
+            display: none;
+        }
+
+        .method-panel.active {
+            display: block;
+        }
+
+        /* reCAPTCHA widget – keep invisible */
+        #recaptcha-container {
+            margin-top: 0.5rem;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(7, 8, 13, 0.3);
+            border-top-color: #07080D;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient">
+    <div class="login-box fade-up">
+        <!-- Logo -->
+        <div style="text-align:center; margin-bottom:1.75rem;">
+            <div
+                style="width:52px;height:52px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:14px;display:grid;place-items:center;font-size:1.4rem;font-weight:900;color:#07080D;margin:0 auto 0.75rem;">
+                T</div>
+            <div style="font-weight:800; font-size:1.25rem;">Welcome to Tijwaal</div>
+            <div style="font-size:0.8rem; color:var(--text-muted); font-family:Cairo,sans-serif;">مرحباً بك في تجوال
+            </div>
+        </div>
+
+        <!-- Step dots -->
+        <div class="steps mb-3">
+            <div class="step-item">
+                <div class="step-dot active" id="dot1">1</div>
+                <div class="step-line" id="line1"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-dot" id="dot2">2</div>
+            </div>
+        </div>
+
+        <!-- ── STEP 1 ── -->
+        <div id="step1">
+            <h3 style="margin-bottom:0.4rem;">Sign in to your account</h3>
+            <p style="font-size:0.82rem; margin-bottom:1.25rem;">Choose how you'd like to receive your verification
+                code.</p>
+
+            <div class="method-tabs">
+                <button class="method-tab active" id="tabPhone" onclick="switchMethod('phone')">📱 Mobile SMS</button>
+                <button class="method-tab" id="tabEmail" onclick="switchMethod('email')">✉️ Email <span
+                        class="beta-badge">BETA</span></button>
+            </div>
+
+            <!-- Phone -->
+            <div class="method-panel active" id="panelPhone">
+                <div class="form-group">
+                    <label>Mobile Number / رقم الجوال</label>
+                    <div class="phone-wrap">
+                        <div class="phone-flag">🇸🇦 +966</div>
+                        <input class="form-control" type="tel" placeholder="5X XXX XXXX" id="phoneInput" />
+                    </div>
+                </div>
+                <!-- Invisible reCAPTCHA anchor -->
+                <div id="recaptcha-container"></div>
+                <button class="btn btn-primary btn-block mt-3" id="sendSmsBtn" onclick="sendPhoneOTP()">Send SMS Code
+                    →</button>
+            </div>
+
+            <!-- Email (Beta – simulated during trial) -->
+            <div class="method-panel" id="panelEmail">
+                <div
+                    style="background:rgba(45,212,191,0.08);border:1px solid rgba(45,212,191,0.25);border-radius:var(--radius-sm);padding:0.65rem 0.9rem;margin-bottom:1rem;font-size:0.78rem;color:var(--teal);">
+                    ℹ️ <strong>Beta mode:</strong> A 6-digit demo code will be shown on screen for testing.<br />
+                    <span style="font-family:Cairo,sans-serif;font-size:0.73rem;color:var(--text-muted);">في المرحلة
+                        التجريبية يظهر الكود على الشاشة مباشرة</span>
+                </div>
+                <div class="form-group">
+                    <label>Email Address / البريد الإلكتروني</label>
+                    <input class="form-control" type="email" placeholder="your@email.com" id="emailInput" />
+                </div>
+                <button class="btn btn-primary btn-block mt-3" onclick="sendEmailOTP()">Send Demo Code →</button>
+            </div>
+
+            <div style="text-align:center; margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">
+                Want to join as a provider? <a href="../provider/register.html" style="color:var(--gold);">Register
+                    here</a>
+            </div>
+        </div>
+
+        <!-- ── STEP 2: OTP Entry ── -->
+        <div id="step2" style="display:none;">
+            <h3 style="margin-bottom:0.5rem;">Enter verification code</h3>
+            <p style="font-size:0.82rem; margin-bottom:0.25rem;">Code sent to <span id="sentTo"
+                    style="color:var(--gold); font-weight:600;"></span></p>
+            <p id="methodNote" style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.75rem;"></p>
+            <!-- Demo-mode code hint -->
+            <div id="demoHint"
+                style="display:none; background:var(--gold-dim); border:1px solid var(--border-gold); border-radius:var(--radius-sm); padding:0.6rem 0.9rem; margin-bottom:0.75rem; font-size:0.82rem; text-align:center;">
+                🔑 Demo code: <strong id="demoCode" style="color:var(--gold); letter-spacing:0.15em;"></strong>
+            </div>
+            <div class="otp-row">
+                <input class="otp-input" maxlength="1" id="otp1" />
+                <input class="otp-input" maxlength="1" id="otp2" />
+                <input class="otp-input" maxlength="1" id="otp3" />
+                <input class="otp-input" maxlength="1" id="otp4" />
+                <input class="otp-input" maxlength="1" id="otp5" />
+                <input class="otp-input" maxlength="1" id="otp6" />
+            </div>
+            <p style="font-size:0.78rem; text-align:center; color:var(--text-muted); margin-bottom:1rem;">
+                Expires in <span id="countdown" style="color:var(--gold);">2:00</span>
+            </p>
+            <button class="btn btn-primary btn-block" id="verifyBtn" onclick="verifyOTP()">Verify &amp; Continue
+                →</button>
+            <button class="btn btn-ghost btn-block mt-1" style="font-size:0.82rem;" onclick="backToStep1()">← Change
+                contact</button>
+            <button class="btn btn-ghost btn-block" style="font-size:0.78rem; color:var(--text-muted);"
+                onclick="resendCode()">Resend Code</button>
+        </div>
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <a href="../index.html" style="color:var(--text-muted); font-size:0.78rem;">← Back to Platform Home</a>
+        </div>
+    </div>
+
+    <!-- ── Firebase SDKs (compat – no bundler required) ── -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // ──────────────────────────────────────────────
+        // State
+        // ──────────────────────────────────────────────
+        let countdownTimer;
+        let currentMethod = 'phone';   // 'phone' | 'email'
+        let emailDemoCode = '';         // random code for email beta
+        let recaptchaVerifier;
+        let confirmationResult = null; // Firebase SMS confirmation
+
+        // ──────────────────────────────────────────────
+        // Initialise invisible reCAPTCHA on page load
+        // ──────────────────────────────────────────────
+        window.addEventListener('load', () => {
+            recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                size: 'invisible',
+                callback: () => { /* reCAPTCHA solved automatically */ }
+            });
+            recaptchaVerifier.render();
+        });
+
+        // ──────────────────────────────────────────────
+        // Method toggle
+        // ──────────────────────────────────────────────
+        function switchMethod(m) {
+            currentMethod = m;
+            document.getElementById('tabPhone').classList.toggle('active', m === 'phone');
+            document.getElementById('tabEmail').classList.toggle('active', m === 'email');
+            document.getElementById('panelPhone').classList.toggle('active', m === 'phone');
+            document.getElementById('panelEmail').classList.toggle('active', m === 'email');
+        }
+
+        // ──────────────────────────────────────────────
+        // Phone SMS OTP via Firebase
+        // ──────────────────────────────────────────────
+        async function sendPhoneOTP() {
+            const raw = document.getElementById('phoneInput').value.trim();
+            if (raw.length < 9) { showToast('Enter a valid phone number', 'warning'); return; }
+
+            const phoneNumber = '+966' + raw.replace(/\s/g, '');
+            const btn = document.getElementById('sendSmsBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> Sending…';
+
+            try {
+                confirmationResult = await firebaseAuth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier);
+                document.getElementById('sentTo').textContent = '+966 ' + raw;
+                document.getElementById('methodNote').textContent = '📱 Check your SMS messages.';
+                document.getElementById('demoHint').style.display = 'none';
+                goToStep2();
+                showToast('SMS sent! Check your phone.', 'success');
+            } catch (err) {
+                console.error(err);
+                showToast('Error: ' + (err.message || 'Could not send SMS'), 'error');
+                // Reset reCAPTCHA so user can retry
+                recaptchaVerifier.clear();
+                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+                recaptchaVerifier.render();
+                btn.disabled = false;
+                btn.innerHTML = 'Send SMS Code →';
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // Email – Beta / Demo mode (shows code on screen)
+        // ──────────────────────────────────────────────
+        function sendEmailOTP() {
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email.includes('@') || !email.includes('.')) { showToast('Enter a valid email address', 'warning'); return; }
+
+            // Generate a random 6-digit code (client-side demo only)
+            emailDemoCode = String(Math.floor(100000 + Math.random() * 900000));
+            confirmationResult = null; // not using Firebase for email
+
+            document.getElementById('sentTo').textContent = email;
+            document.getElementById('methodNote').textContent = '📧 Demo mode – code shown below (beta only).';
+            document.getElementById('demoCode').textContent = emailDemoCode;
+            document.getElementById('demoHint').style.display = 'block';
+
+            goToStep2();
+            showToast('Demo code generated — see below', 'info');
+        }
+
+        // ──────────────────────────────────────────────
+        // Step transition helpers
+        // ──────────────────────────────────────────────
+        function goToStep2() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            document.getElementById('dot1').className = 'step-dot done'; document.getElementById('dot1').textContent = '✓';
+            document.getElementById('line1').classList.add('done');
+            document.getElementById('dot2').classList.add('active');
+            document.getElementById('otp1').focus();
+            startCountdown();
+        }
+
+        function backToStep1() {
+            clearInterval(countdownTimer);
+            confirmationResult = null;
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('dot1').className = 'step-dot active'; document.getElementById('dot1').textContent = '1';
+            document.getElementById('line1').classList.remove('done');
+            document.getElementById('dot2').classList.remove('active');
+            document.getElementById('sendSmsBtn').disabled = false;
+            document.getElementById('sendSmsBtn').innerHTML = 'Send SMS Code →';
+            getOTPDigits().forEach(inp => inp.value = '');
+        }
+
+        // ──────────────────────────────────────────────
+        // OTP Verification
+        // ──────────────────────────────────────────────
+        async function verifyOTP() {
+            const code = getOTPDigits().map(i => i.value).join('');
+            if (code.length < 6) { showToast('Enter the full 6-digit code', 'warning'); return; }
+
+            const btn = document.getElementById('verifyBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> Verifying…';
+
+            if (currentMethod === 'phone' && confirmationResult) {
+                // ── Real Firebase phone verification ──
+                try {
+                    await confirmationResult.confirm(code);
+                    clearInterval(countdownTimer);
+                    showToast('✅ Phone verified! Redirecting…', 'success');
+                    setTimeout(() => window.location.href = 'request.html', 1200);
+                } catch (err) {
+                    console.error(err);
+                    showToast('Wrong code. Please try again.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Verify &amp; Continue →';
+                }
+            } else {
+                // ── Demo email code check ──
+                if (code === emailDemoCode) {
+                    clearInterval(countdownTimer);
+                    showToast('✅ Verified! Redirecting…', 'success');
+                    setTimeout(() => window.location.href = 'request.html', 1200);
+                } else {
+                    showToast('Wrong code. Try again.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Verify &amp; Continue →';
+                }
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // Resend / Countdown
+        // ──────────────────────────────────────────────
+        function resendCode() {
+            getOTPDigits().forEach(inp => inp.value = '');
+            if (currentMethod === 'phone') {
+                sendPhoneOTP();
+            } else {
+                emailDemoCode = String(Math.floor(100000 + Math.random() * 900000));
+                document.getElementById('demoCode').textContent = emailDemoCode;
+                showToast('New demo code generated', 'info');
+                startCountdown();
+                document.getElementById('otp1').focus();
+            }
+        }
+
+        function startCountdown() {
+            let s = 120;
+            clearInterval(countdownTimer);
+            const el = document.getElementById('countdown');
+            countdownTimer = setInterval(() => {
+                s--;
+                const m = Math.floor(s / 60), sec = s % 60;
+                el.textContent = m + ':' + (sec < 10 ? '0' : '') + sec;
+                if (s <= 0) { clearInterval(countdownTimer); el.textContent = 'Expired'; }
+            }, 1000);
+        }
+
+        // ──────────────────────────────────────────────
+        // Utilities
+        // ──────────────────────────────────────────────
+        function getOTPDigits() {
+            return ['otp1', 'otp2', 'otp3', 'otp4', 'otp5', 'otp6'].map(id => document.getElementById(id));
+        }
+
+        // OTP auto-advance
+        getOTPDigits().forEach((inp, i, all) => {
+            inp.addEventListener('input', () => { if (inp.value && i < all.length - 1) all[i + 1].focus(); });
+            inp.addEventListener('keydown', e => { if (e.key === 'Backspace' && !inp.value && i > 0) all[i - 1].focus(); });
+        });
+    </script>
+</body>
+
+</html>

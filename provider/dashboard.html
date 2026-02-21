@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Provider Dashboard – Tijwaal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gradient">
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">T</div>
+                <div>
+                    <div class="logo-text">Tijwaal</div>
+                    <div class="logo-sub">Provider Portal</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Main</div>
+                <a href="dashboard.html" class="nav-link active"><span class="nav-icon">📊</span> Dashboard</a>
+                <a href="bid.html" class="nav-link"><span class="nav-icon">💼</span> Browse Jobs <span
+                        class="nav-badge">12</span></a>
+                <a href="wallet.html" class="nav-link"><span class="nav-icon">💰</span> My Wallet</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div
+                    style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding:0.75rem;background:rgba(255,255,255,0.04);border-radius:var(--radius-md);">
+                    <div class="avatar" style="background:var(--teal-dim);color:var(--teal);">R</div>
+                    <div>
+                        <div style="font-size:0.88rem;font-weight:700;">Rami Al-Joudi</div>
+                        <div class="stars" style="font-size:0.72rem;color:var(--gold);">★★★★★ 4.9</div>
+                    </div>
+                </div>
+                <a href="../index.html" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:0.5rem;">🏠 Home</a>
+                <a href="register.html" class="btn btn-ghost btn-sm btn-block" style="color:var(--danger);">← Sign
+                    Out</a>
+            </div>
+        </aside>
+        <div class="main-content">
+            <div class="topbar">
+                <button id="sidebarToggle" class="icon-btn">☰</button>
+                <div class="topbar-title">Provider Dashboard</div>
+                <div class="topbar-actions">
+                    <div class="icon-btn">🔔<span class="dot"></span></div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Welcome back, Rami</div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="page-header">
+                    <div>
+                        <h2>Good Morning, Rami 👋</h2>
+                        <p>Here's your performance overview and active jobs.</p>
+                    </div>
+                    <a href="bid.html" class="btn btn-primary">💼 Browse Available Jobs</a>
+                </div>
+
+                <!-- KPIs -->
+                <div class="kpi-grid mb-3">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Wallet Balance</div>
+                        <div class="kpi-value" style="color:var(--gold);">SAR 8,420</div>
+                        <div class="kpi-delta up">↑ SAR 450 today</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Jobs This Month</div>
+                        <div class="kpi-value">34</div>
+                        <div class="kpi-delta up">↑ 18% vs last month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Active Bids</div>
+                        <div class="kpi-value">3</div>
+                        <div class="kpi-delta" style="color:var(--text-muted);">Waiting for customer</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">My Rating</div>
+                        <div class="kpi-value">⭐ 4.9</div>
+                        <div class="kpi-delta up">↑ 0.1 this month</div>
+                    </div>
+                </div>
+
+                <div class="grid-2 mb-3">
+                    <div class="chart-wrap">
+                        <div class="chart-title">📈 Monthly Earnings (SAR)</div><canvas id="earningsChart"
+                            height="150"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3 style="margin-bottom:1rem;">📋 Quick Stats</h3>
+                        <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.84rem;">
+                            <div
+                                style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
+                                <span style="color:var(--text-muted);">Completion Rate</span><span
+                                    style="color:var(--success);font-weight:700;">97%</span></div>
+                            <div
+                                style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
+                                <span style="color:var(--text-muted);">Response Time</span><span>~8 min avg</span></div>
+                            <div
+                                style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
+                                <span style="color:var(--text-muted);">Total Reviews</span><span>187</span></div>
+                            <div
+                                style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
+                                <span style="color:var(--text-muted);">5-Star Reviews</span><span
+                                    style="color:var(--gold);">168</span></div>
+                            <div style="display:flex;justify-content:space-between;"><span
+                                    style="color:var(--text-muted);">Member Since</span><span>Mar 2024</span></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div
+                            style="background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:var(--radius-sm);padding:0.75rem;">
+                            <div style="font-size:0.72rem;font-weight:700;color:var(--gold);margin-bottom:0.3rem;">🏆
+                                TOP PROVIDER BADGE</div>
+                            <div style="font-size:0.78rem;color:var(--text-secondary);">You're ranked #3 in Riyadh this
+                                month. Keep it up!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Jobs -->
+                <h3 style="margin-bottom:1rem;">🔨 Active Jobs</h3>
+                <div class="table-wrap mb-3">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Job ID</th>
+                                <th>Service</th>
+                                <th>Customer</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-bold">#J-7843</td>
+                                <td>⚡ Electrician</td>
+                                <td>Omar Al-Ghamdi</td>
+                                <td>Al Olaya, Riyadh</td>
+                                <td style="color:var(--gold);">SAR 180</td>
+                                <td><span class="badge" style="background:var(--teal-dim);color:var(--teal);">In
+                                        Progress</span></td>
+                                <td><button class="btn btn-success btn-sm"
+                                        onclick="showToast('Job marked complete!','success')">✓ Complete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Active Bids -->
+                <h3 style="margin-bottom:1rem;">💼 My Active Bids</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Job ID</th>
+                                <th>Service</th>
+                                <th>Area</th>
+                                <th>My Bid</th>
+                                <th>Bids So Far</th>
+                                <th>Expires</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-bold">#J-7851</td>
+                                <td>⚡ Electrician</td>
+                                <td>Malaz, Riyadh</td>
+                                <td style="color:var(--gold);">SAR 250</td>
+                                <td>4</td>
+                                <td>38 min</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="td-bold">#J-7848</td>
+                                <td>🔧 Plumber</td>
+                                <td>Northen Ring, Riyadh</td>
+                                <td style="color:var(--gold);">SAR 180</td>
+                                <td>2</td>
+                                <td>55 min</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="td-bold">#J-7840</td>
+                                <td>⚡ Electrician</td>
+                                <td>Al Nakheel, Riyadh</td>
+                                <td style="color:var(--gold);">SAR 120</td>
+                                <td>6</td>
+                                <td>Expired</td>
+                                <td><span class="badge badge-muted">Lost</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            createBarChart('earningsChart', ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'], [4200, 5800, 5100, 7200, 8400, 9100, 8420], 'Earnings SAR');
+        });
+    </script>
+</body>
+
+</html>

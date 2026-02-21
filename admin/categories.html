@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categories – Tijwaal Admin</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="bg-gradient">
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">T</div>
+                <div>
+                    <div class="logo-text">Tijwaal Admin</div>
+                    <div class="logo-sub">Control Panel</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Main</div>
+                <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+                <div class="nav-section-label">Users</div>
+                <a href="users.html" class="nav-link"><span class="nav-icon">👥</span> Customers</a>
+                <a href="providers.html" class="nav-link"><span class="nav-icon">🔧</span> Providers <span
+                        class="nav-badge">7</span></a>
+                <div class="nav-section-label">Configuration</div>
+                <a href="categories.html" class="nav-link active"><span class="nav-icon">🗂️</span> Categories</a>
+                <a href="fees.html" class="nav-link"><span class="nav-icon">⚙️</span> Fees & Taxes</a>
+                <div class="nav-section-label">Operations</div>
+                <a href="disputes.html" class="nav-link"><span class="nav-icon">⚖️</span> Disputes <span
+                        class="nav-badge">3</span></a>
+                <a href="wallet.html" class="nav-link"><span class="nav-icon">💰</span> Wallet</a>
+                <a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> Analytics</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../index.html" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:0.5rem;">🏠 Home</a>
+                <a href="login.html" class="btn btn-ghost btn-sm btn-block" style="color:var(--danger);">← Sign Out</a>
+            </div>
+        </aside>
+        <div class="main-content">
+            <div class="topbar">
+                <button id="sidebarToggle" class="icon-btn">☰</button>
+                <div class="topbar-title">Service Categories</div>
+                <div class="topbar-actions">
+                    <div class="icon-btn">🔔<span class="dot"></span></div>
+                    <div class="avatar">A</div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="page-header">
+                    <div>
+                        <h2>Service Categories</h2>
+                        <p>Create, edit, and manage service types available on the platform.</p>
+                    </div>
+                    <button class="btn btn-primary" data-modal="addCatModal">+ Add Category</button>
+                </div>
+
+                <div class="grid-auto" id="catGrid">
+                    <div class="card" style="text-align:center; position:relative;">
+                        <div style="position:absolute;top:0.75rem;right:0.75rem;display:flex;gap:0.4rem;">
+                            <button class="btn btn-ghost btn-sm" data-modal="editCatModal" title="Edit">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="showToast('Category deleted','danger')"
+                                title="Delete">🗑️</button>
+                        </div>
+                        <div style="font-size:2.5rem;margin-bottom:0.75rem;">⚡</div>
+                        <div style="font-weight:700;">Electrician</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);font-family:Cairo,sans-serif;">كهربائي
+                        </div>
+                        <div class="divider"></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+                            <span style="color:var(--text-muted);">Providers</span><span
+                                style="font-weight:600;">340</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:0.3rem;">
+                            <span style="color:var(--text-muted);">Avg Job</span><span
+                                style="font-weight:600;color:var(--gold);">SAR 220</span>
+                        </div>
+                        <span class="badge badge-success mt-2">Active</span>
+                    </div>
+                    <div class="card" style="text-align:center; position:relative;">
+                        <div style="position:absolute;top:0.75rem;right:0.75rem;display:flex;gap:0.4rem;">
+                            <button class="btn btn-ghost btn-sm" data-modal="editCatModal">✏️</button>
+                            <button class="btn btn-danger btn-sm"
+                                onclick="showToast('Category deleted','danger')">🗑️</button>
+                        </div>
+                        <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔧</div>
+                        <div style="font-weight:700;">Plumber</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);font-family:Cairo,sans-serif;">سباك</div>
+                        <div class="divider"></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;"><span
+                                style="color:var(--text-muted);">Providers</span><span
+                                style="font-weight:600;">285</span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:0.3rem;">
+                            <span style="color:var(--text-muted);">Avg Job</span><span
+                                style="font-weight:600;color:var(--gold);">SAR 150</span></div>
+                        <span class="badge badge-success mt-2">Active</span>
+                    </div>
+                    <div class="card" style="text-align:center; position:relative;">
+                        <div style="position:absolute;top:0.75rem;right:0.75rem;display:flex;gap:0.4rem;">
+                            <button class="btn btn-ghost btn-sm" data-modal="editCatModal">✏️</button>
+                            <button class="btn btn-danger btn-sm"
+                                onclick="showToast('Category deleted','danger')">🗑️</button>
+                        </div>
+                        <div style="font-size:2.5rem;margin-bottom:0.75rem;">📦</div>
+                        <div style="font-weight:700;">Item Delivery</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);font-family:Cairo,sans-serif;">توصيل بضائع
+                        </div>
+                        <div class="divider"></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;"><span
+                                style="color:var(--text-muted);">Providers</span><span
+                                style="font-weight:600;">422</span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:0.3rem;">
+                            <span style="color:var(--text-muted);">Avg Job</span><span
+                                style="font-weight:600;color:var(--gold);">SAR 80</span></div>
+                        <span class="badge badge-success mt-2">Active</span>
+                    </div>
+                    <div class="card" style="text-align:center; position:relative;">
+                        <div style="position:absolute;top:0.75rem;right:0.75rem;display:flex;gap:0.4rem;">
+                            <button class="btn btn-ghost btn-sm" data-modal="editCatModal">✏️</button>
+                            <button class="btn btn-danger btn-sm"
+                                onclick="showToast('Category deleted','danger')">🗑️</button>
+                        </div>
+                        <div style="font-size:2.5rem;margin-bottom:0.75rem;">🪑</div>
+                        <div style="font-weight:700;">Carpenter</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);font-family:Cairo,sans-serif;">نجار</div>
+                        <div class="divider"></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;"><span
+                                style="color:var(--text-muted);">Providers</span><span
+                                style="font-weight:600;">198</span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:0.3rem;">
+                            <span style="color:var(--text-muted);">Avg Job</span><span
+                                style="font-weight:600;color:var(--gold);">SAR 380</span></div>
+                        <span class="badge badge-success mt-2">Active</span>
+                    </div>
+                    <div class="card" style="text-align:center; position:relative;">
+                        <div style="position:absolute;top:0.75rem;right:0.75rem;display:flex;gap:0.4rem;">
+                            <button class="btn btn-ghost btn-sm" data-modal="editCatModal">✏️</button>
+                            <button class="btn btn-danger btn-sm"
+                                onclick="showToast('Category deleted','danger')">🗑️</button>
+                        </div>
+                        <div style="font-size:2.5rem;margin-bottom:0.75rem;">🚛</div>
+                        <div style="font-weight:700;">Flatbed & Goods</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);font-family:Cairo,sans-serif;">نقل ثقيل
+                        </div>
+                        <div class="divider"></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;"><span
+                                style="color:var(--text-muted);">Providers</span><span
+                                style="font-weight:600;">157</span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:0.3rem;">
+                            <span style="color:var(--text-muted);">Avg Job</span><span
+                                style="font-weight:600;color:var(--gold);">SAR 820</span></div>
+                        <span class="badge badge-success mt-2">Active</span>
+                    </div>
+                    <div class="card" style="text-align:center; position:relative; border-style:dashed; cursor:pointer;"
+                        data-modal="addCatModal">
+                        <div style="font-size:2.5rem;margin-bottom:0.75rem;color:var(--text-muted);">＋</div>
+                        <div style="font-weight:600;color:var(--text-secondary);">Add New Category</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Click to create</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div class="modal-overlay" id="addCatModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Category</h3><button class="modal-close">✕</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div class="form-group"><label>Category Name (English)</label><input class="form-control"
+                        placeholder="e.g. Electrician" /></div>
+                <div class="form-group"><label>Category Name (Arabic)</label><input class="form-control"
+                        placeholder="مثل: كهربائي" dir="rtl" /></div>
+                <div class="form-group"><label>Emoji Icon</label><input class="form-control" placeholder="e.g. ⚡"
+                        style="font-size:1.5rem;" /></div>
+                <div class="form-group"><label>Category Type</label>
+                    <select class="form-control">
+                        <option>Home Services</option>
+                        <option>Transport & Delivery</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Status</label>
+                    <select class="form-control">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-block"
+                    onclick="closeModal('addCatModal');showToast('Category added successfully','success')">Save
+                    Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Category Modal -->
+    <div class="modal-overlay" id="editCatModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Category</h3><button class="modal-close">✕</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div class="form-group"><label>Category Name (English)</label><input class="form-control"
+                        value="Electrician" /></div>
+                <div class="form-group"><label>Category Name (Arabic)</label><input class="form-control" value="كهربائي"
+                        dir="rtl" /></div>
+                <div class="form-group"><label>Emoji Icon</label><input class="form-control" value="⚡"
+                        style="font-size:1.5rem;" /></div>
+                <div class="form-group"><label>Status</label>
+                    <select class="form-control">
+                        <option selected>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-block"
+                    onclick="closeModal('editCatModal');showToast('Category updated','success')">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

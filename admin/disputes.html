@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disputes – Tijwaal Admin</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="bg-gradient">
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">T</div>
+                <div>
+                    <div class="logo-text">Tijwaal Admin</div>
+                    <div class="logo-sub">Control Panel</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Main</div>
+                <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+                <div class="nav-section-label">Users</div>
+                <a href="users.html" class="nav-link"><span class="nav-icon">👥</span> Customers</a>
+                <a href="providers.html" class="nav-link"><span class="nav-icon">🔧</span> Providers <span
+                        class="nav-badge">7</span></a>
+                <div class="nav-section-label">Configuration</div>
+                <a href="categories.html" class="nav-link"><span class="nav-icon">🗂️</span> Categories</a>
+                <a href="fees.html" class="nav-link"><span class="nav-icon">⚙️</span> Fees & Taxes</a>
+                <div class="nav-section-label">Operations</div>
+                <a href="disputes.html" class="nav-link active"><span class="nav-icon">⚖️</span> Disputes <span
+                        class="nav-badge">3</span></a>
+                <a href="wallet.html" class="nav-link"><span class="nav-icon">💰</span> Wallet</a>
+                <a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> Analytics</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../index.html" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:0.5rem;">🏠 Home</a>
+                <a href="login.html" class="btn btn-ghost btn-sm btn-block" style="color:var(--danger);">← Sign Out</a>
+            </div>
+        </aside>
+        <div class="main-content">
+            <div class="topbar">
+                <button id="sidebarToggle" class="icon-btn">☰</button>
+                <div class="topbar-title">Dispute Management</div>
+                <div class="topbar-actions">
+                    <div class="icon-btn">🔔<span class="dot"></span></div>
+                    <div class="avatar">A</div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="page-header">
+                    <div>
+                        <h2>Disputes <span class="badge badge-danger" style="font-size:1rem; vertical-align:middle;">3
+                                Open</span></h2>
+                        <p>Review and resolve customer-provider conflicts.</p>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:1.25rem;">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Open</div>
+                        <div class="kpi-value" style="color:var(--danger);">3</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Resolved This Month</div>
+                        <div class="kpi-value" style="color:var(--success);">47</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Total Refunded</div>
+                        <div class="kpi-value" style="color:var(--gold);">SAR 12,400</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Avg Resolution Time</div>
+                        <div class="kpi-value">14h</div>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="disputesTable">
+                        <thead>
+                            <tr>
+                                <th>Dispute ID</th>
+                                <th>Job ID</th>
+                                <th>Customer</th>
+                                <th>Provider</th>
+                                <th>Reason</th>
+                                <th>Amount</th>
+                                <th>Opened</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-bold">#D-301</td>
+                                <td>#J-7838</td>
+                                <td>Omar Al-Ghamdi</td>
+                                <td>Hassan Qureshi</td>
+                                <td>Service not completed</td>
+                                <td style="color:var(--gold);">SAR 900</td>
+                                <td>Today 09:14</td>
+                                <td><span class="badge badge-danger">Open</span></td>
+                                <td><button class="btn btn-primary btn-sm" data-modal="disputeModal">Resolve</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-bold">#D-300</td>
+                                <td>#J-7820</td>
+                                <td>Nora Al-Saud</td>
+                                <td>Yousuf Nasser</td>
+                                <td>Item damaged in transit</td>
+                                <td style="color:var(--gold);">SAR 450</td>
+                                <td>Feb 19</td>
+                                <td><span class="badge badge-danger">Open</span></td>
+                                <td><button class="btn btn-primary btn-sm" data-modal="disputeModal">Resolve</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-bold">#D-299</td>
+                                <td>#J-7801</td>
+                                <td>Turki Al-Faisal</td>
+                                <td>Ali Mohammed</td>
+                                <td>Wrong service delivered</td>
+                                <td style="color:var(--gold);">SAR 200</td>
+                                <td>Feb 18</td>
+                                <td><span class="badge badge-danger">Open</span></td>
+                                <td><button class="btn btn-primary btn-sm" data-modal="disputeModal">Resolve</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-bold">#D-298</td>
+                                <td>#J-7790</td>
+                                <td>Rana Al-Malik</td>
+                                <td>Khalid Hamdan</td>
+                                <td>Overcharged</td>
+                                <td style="color:var(--gold);">SAR 350</td>
+                                <td>Feb 17</td>
+                                <td><span class="badge badge-success">Resolved – Refunded</span></td>
+                                <td><button class="btn btn-ghost btn-sm" data-modal="disputeModal">View</button></td>
+                            </tr>
+                            <tr>
+                                <td class="td-bold">#D-297</td>
+                                <td>#J-7784</td>
+                                <td>Sami Al-Dosari</td>
+                                <td>Faisal Noor</td>
+                                <td>No-show provider</td>
+                                <td style="color:var(--gold);">SAR 80</td>
+                                <td>Feb 15</td>
+                                <td><span class="badge badge-muted">Dismissed</span></td>
+                                <td><button class="btn btn-ghost btn-sm" data-modal="disputeModal">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dispute Resolution Modal -->
+    <div class="modal-overlay" id="disputeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>⚖️ Dispute Resolution — #D-301</h3><button class="modal-close">✕</button>
+            </div>
+
+            <div class="grid-2" style="gap:0.75rem; margin-bottom:1.25rem;">
+                <div class="card" style="padding:0.75rem;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">Customer</div>
+                    <div style="font-weight:600;">Omar Al-Ghamdi</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">+966 59 654 3210</div>
+                </div>
+                <div class="card" style="padding:0.75rem;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">Provider</div>
+                    <div style="font-weight:600;">Hassan Qureshi</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">⭐ 4.8 · 142 jobs</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:1.25rem; padding:1rem;">
+                <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.75rem;color:var(--text-muted);">DISPUTE
+                    DETAILS</div>
+                <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;">
+                    <span>Job ID</span><span class="td-bold">#J-7838</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;">
+                    <span>Service</span><span>Flatbed Transport</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;">
+                    <span>Job Amount</span><span style="color:var(--gold);font-weight:600;">SAR 900</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+                    <span>Reason</span><span>Service not completed</span></div>
+            </div>
+
+            <!-- Chat preview -->
+            <div style="font-size:0.82rem;font-weight:600;color:var(--text-muted);margin-bottom:0.5rem;">CUSTOMER
+                COMPLAINT</div>
+            <div class="card"
+                style="padding:0.75rem; font-size:0.83rem; color:var(--text-secondary); margin-bottom:1.25rem; border-left:3px solid var(--danger);">
+                "The provider arrived but left after 30 minutes claiming he didn't have the right equipment. The goods
+                were not transported and I was still charged SAR 900."
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem;">
+                <label>Resolution</label>
+                <select class="form-control" id="resolutionSelect" onchange="updateResBtn()">
+                    <option value="">— Select resolution —</option>
+                    <option value="refund">Full Refund to Customer</option>
+                    <option value="partial">Partial Refund (50%)</option>
+                    <option value="warn">Warn Provider, No Refund</option>
+                    <option value="dismiss">Dismiss — Ruled Unfounded</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom:1.25rem;">
+                <label>Admin Notes</label>
+                <textarea class="form-control" placeholder="Internal notes about this resolution decision…"></textarea>
+            </div>
+            <div style="display:flex; gap:0.75rem;">
+                <button class="btn btn-primary btn-block" id="resolveBtn" onclick="resolveDispute()">Confirm
+                    Resolution</button>
+                <button class="btn btn-ghost btn-block modal-close">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        function updateResBtn() {
+            const v = document.getElementById('resolutionSelect').value;
+            const btn = document.getElementById('resolveBtn');
+            const labels = { refund: '💸 Issue Full Refund', partial: '💸 Issue Partial Refund', warn: '⚠ Warn Provider', dismiss: '✕ Dismiss Dispute' };
+            if (labels[v]) btn.textContent = labels[v];
+            else btn.textContent = 'Confirm Resolution';
+        }
+        function resolveDispute() {
+            const v = document.getElementById('resolutionSelect').value;
+            if (!v) { showToast('Please select a resolution', 'warning'); return; }
+            closeModal('disputeModal');
+            showToast('Dispute resolved — customer and provider notified', 'success');
+        }
+    </script>
+</body>
+
+</html>

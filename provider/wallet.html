@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Provider Wallet – Tijwaal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        body {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient">
+    <div class="navbar">
+        <a href="dashboard.html" style="color:var(--text-muted);font-size:1.2rem;">←</a>
+        <div style="font-weight:700;">My Wallet & Earnings</div>
+        <div style="margin-left:auto;">
+            <div class="avatar" style="background:var(--teal-dim);color:var(--teal);">R</div>
+        </div>
+    </div>
+
+    <!-- Balance card -->
+    <div class="card card--gold"
+        style="text-align:center; padding:2rem; margin-bottom:1.25rem; background:linear-gradient(135deg, rgba(212,168,67,0.12), rgba(45,212,191,0.06));">
+        <div
+            style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold);margin-bottom:0.5rem;">
+            Available to Withdraw</div>
+        <div style="font-size:3rem;font-weight:900;color:var(--gold);">SAR 8,420.00</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:1.5rem;">Pending: <strong
+                style="color:var(--warning);">SAR 780</strong> (will clear in 24h)</div>
+        <button class="btn btn-primary btn-lg" data-modal="withdrawModal">↗ Withdraw Funds</button>
+    </div>
+
+    <!-- Earnings Summary -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:1.25rem;">
+        <div class="kpi-card">
+            <div class="kpi-label">This Month</div>
+            <div class="kpi-value" style="font-size:1.2rem;">SAR 8,420</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">All Time</div>
+            <div class="kpi-value" style="font-size:1.2rem;">SAR 78,340</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Withdrawn</div>
+            <div class="kpi-value" style="font-size:1.2rem;">SAR 69,920</div>
+        </div>
+    </div>
+
+    <!-- Transaction History -->
+    <div class="flex justify-between items-center mb-2">
+        <h3>Earnings & Withdrawals</h3>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Downloading statement…','info')">📄 Statement</button>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Feb 20</td>
+                    <td>⚡ Job #J-7843 – Customer: Omar Al-Ghamdi</td>
+                    <td style="color:var(--success);">+ SAR 162</td>
+                    <td><span class="badge badge-success">Settled</span></td>
+                </tr>
+                <tr>
+                    <td>Feb 20</td>
+                    <td>⚡ Job #J-7841 – Customer: Turki Al-Rashid</td>
+                    <td style="color:var(--warning);">+ SAR 279</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>Feb 18</td>
+                    <td>↗ Withdrawal to Al Rajhi ••••4821</td>
+                    <td style="color:var(--danger);">- SAR 5,000</td>
+                    <td><span class="badge badge-success">Processed</span></td>
+                </tr>
+                <tr>
+                    <td>Feb 17</td>
+                    <td>⚡ Job #J-7835 – Customer: Reem Al-Saud</td>
+                    <td style="color:var(--success);">+ SAR 720</td>
+                    <td><span class="badge badge-success">Settled</span></td>
+                </tr>
+                <tr>
+                    <td>Feb 15</td>
+                    <td>⚡ Job #J-7820 – Customer: Nora Saad</td>
+                    <td style="color:var(--success);">+ SAR 337</td>
+                    <td><span class="badge badge-success">Settled</span></td>
+                </tr>
+                <tr>
+                    <td>Feb 10</td>
+                    <td>↗ Withdrawal to Al Rajhi ••••4821</td>
+                    <td style="color:var(--danger);">- SAR 3,000</td>
+                    <td><span class="badge badge-success">Processed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;">Showing last 6 records.
+        Amounts are after 10% platform fee deduction.</p>
+
+    <!-- Withdraw Modal -->
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>↗ Withdraw Funds</h3><button class="modal-close">✕</button>
+            </div>
+            <div
+                style="background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:var(--radius-md);padding:1rem;margin-bottom:1.25rem;">
+                <div style="font-size:0.78rem;color:var(--text-muted);">Available Balance</div>
+                <div style="font-size:1.8rem;font-weight:800;color:var(--gold);">SAR 8,420.00</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div class="form-group">
+                    <label>Quick Withdraw</label>
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <button class="btn btn-ghost btn-sm" onclick="setWithdraw(1000)">SAR 1,000</button>
+                        <button class="btn btn-ghost btn-sm" onclick="setWithdraw(3000)">SAR 3,000</button>
+                        <button class="btn btn-primary btn-sm" onclick="setWithdraw(5000)">SAR 5,000</button>
+                        <button class="btn btn-ghost btn-sm" onclick="setWithdraw(8420)">All</button>
+                    </div>
+                </div>
+                <div class="form-group"><label>Amount (SAR)</label><input class="form-control" type="number"
+                        id="wdAmount" value="5000" max="8420" min="100" onchange="updateWD()" /></div>
+                <div class="form-group"><label>Bank Account</label>
+                    <select class="form-control">
+                        <option>Al Rajhi Bank — •••• 4821</option>
+                        <option>+ Add bank account</option>
+                    </select>
+                </div>
+                <div class="card" style="background:var(--bg-input);font-size:0.82rem;">
+                    <div style="display:flex;justify-content:space-between;"><span
+                            style="color:var(--text-muted);">Amount Requested</span><span id="wdReq">SAR 5,000</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:0.3rem;"><span
+                            style="color:var(--text-muted);">Processing Fee</span><span style="color:var(--danger);">-
+                            SAR 5</span></div>
+                    <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:0.5rem;"><span>You
+                            Receive</span><span style="color:var(--success);" id="wdNet">SAR 4,995</span></div>
+                </div>
+                <div style="font-size:0.78rem;color:var(--text-muted);">ⓘ Processing time: 3 business days.</div>
+                <button class="btn btn-primary btn-block" onclick="submitWithdraw()">Confirm Withdrawal</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        function setWithdraw(n) {
+            document.getElementById('wdAmount').value = n;
+            document.querySelectorAll('[onclick^="setWithdraw"]').forEach(b => b.className = 'btn btn-ghost btn-sm');
+            event.target.className = 'btn btn-primary btn-sm';
+            updateWD();
+        }
+        function updateWD() {
+            const n = parseFloat(document.getElementById('wdAmount').value) || 0;
+            document.getElementById('wdReq').textContent = `SAR ${n.toLocaleString()}`;
+            document.getElementById('wdNet').textContent = `SAR ${(n - 5).toLocaleString()}`;
+        }
+        function submitWithdraw() {
+            const n = document.getElementById('wdAmount').value;
+            closeModal('withdrawModal');
+            showToast(`Withdrawal of SAR ${n} initiated — arrives in 3 business days`, 'success');
+        }
+    </script>
+</body>
+
+</html>

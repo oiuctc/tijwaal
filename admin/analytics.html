@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics – Tijwaal Admin</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gradient">
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">T</div>
+                <div>
+                    <div class="logo-text">Tijwaal Admin</div>
+                    <div class="logo-sub">Control Panel</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Main</div>
+                <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+                <div class="nav-section-label">Users</div>
+                <a href="users.html" class="nav-link"><span class="nav-icon">👥</span> Customers</a>
+                <a href="providers.html" class="nav-link"><span class="nav-icon">🔧</span> Providers <span
+                        class="nav-badge">7</span></a>
+                <div class="nav-section-label">Configuration</div>
+                <a href="categories.html" class="nav-link"><span class="nav-icon">🗂️</span> Categories</a>
+                <a href="fees.html" class="nav-link"><span class="nav-icon">⚙️</span> Fees & Taxes</a>
+                <div class="nav-section-label">Operations</div>
+                <a href="disputes.html" class="nav-link"><span class="nav-icon">⚖️</span> Disputes <span
+                        class="nav-badge">3</span></a>
+                <a href="wallet.html" class="nav-link"><span class="nav-icon">💰</span> Wallet</a>
+                <a href="analytics.html" class="nav-link active"><span class="nav-icon">📈</span> Analytics</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../index.html" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:0.5rem;">🏠 Home</a>
+                <a href="login.html" class="btn btn-ghost btn-sm btn-block" style="color:var(--danger);">← Sign Out</a>
+            </div>
+        </aside>
+        <div class="main-content">
+            <div class="topbar">
+                <button id="sidebarToggle" class="icon-btn">☰</button>
+                <div class="topbar-title">Analytics & Reports</div>
+                <div class="topbar-actions">
+                    <div class="icon-btn">🔔<span class="dot"></span></div>
+                    <div class="avatar">A</div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="page-header">
+                    <div>
+                        <h2>Analytics & Reports</h2>
+                        <p>Platform performance data with exportable reports.</p>
+                    </div>
+                    <div style="display:flex;gap:0.75rem;">
+                        <button class="btn btn-ghost" onclick="showToast('Generating PDF report…','info')">📄 Export
+                            PDF</button>
+                        <button class="btn btn-primary" onclick="downloadCSV()">📤 Export CSV</button>
+                    </div>
+                </div>
+
+                <!-- Date Range Filter -->
+                <div class="card mb-3" style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                    <span style="font-size:0.85rem; font-weight:600;">📅 Date Range:</span>
+                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                        <button class="btn btn-primary btn-sm" onclick="setRange(this, 7)">Last 7 Days</button>
+                        <button class="btn btn-ghost btn-sm" onclick="setRange(this, 30)">Last 30 Days</button>
+                        <button class="btn btn-ghost btn-sm" onclick="setRange(this, 90)">Last 90 Days</button>
+                        <button class="btn btn-ghost btn-sm" onclick="setRange(this, 365)">Last Year</button>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-left:auto;">
+                        <input type="date" class="form-control" style="width:150px;" />
+                        <span style="color:var(--text-muted);">to</span>
+                        <input type="date" class="form-control" style="width:150px;" />
+                        <button class="btn btn-secondary btn-sm"
+                            onclick="showToast('Custom range applied','info')">Apply</button>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="kpi-grid mb-3">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Total Revenue</div>
+                        <div class="kpi-value">SAR 1.82M</div>
+                        <div class="kpi-delta up">↑ 18.4% YoY</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Total Jobs</div>
+                        <div class="kpi-value">12,840</div>
+                        <div class="kpi-delta up">↑ 22.1% YoY</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">New Customers</div>
+                        <div class="kpi-value">4,210</div>
+                        <div class="kpi-delta up">↑ 14.8% YoY</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Avg Job Value</div>
+                        <div class="kpi-value">SAR 319</div>
+                        <div class="kpi-delta down">↓ 2.1% YoY</div>
+                    </div>
+                </div>
+
+                <!-- Charts row 1 -->
+                <div class="grid-2 mb-3">
+                    <div class="chart-wrap">
+                        <div class="chart-title">📈 Monthly Revenue (SAR)</div><canvas id="monthlyRevChart"
+                            height="150"></canvas>
+                    </div>
+                    <div class="chart-wrap">
+                        <div class="chart-title">📊 Jobs by Category</div><canvas id="catAnalyticsChart"
+                            height="150"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts row 2 -->
+                <div class="grid-2 mb-3">
+                    <div class="chart-wrap">
+                        <div class="chart-title">👥 New Customer Registrations</div><canvas id="regChart"
+                            height="150"></canvas>
+                    </div>
+                    <div class="chart-wrap">
+                        <div class="chart-title">⭐ Average Provider Rating by Category</div><canvas id="ratingChart"
+                            height="150"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top Providers Table -->
+                <div class="flex justify-between items-center mb-2">
+                    <h3>🏆 Top 5 Providers – This Period</h3>
+                    <button class="btn btn-ghost btn-sm"
+                        onclick="showToast('Exporting provider performance…','info')">📤 Export</button>
+                </div>
+                <div class="table-wrap" style="margin-bottom:1.5rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Provider</th>
+                                <th>Category</th>
+                                <th>Jobs</th>
+                                <th>Revenue</th>
+                                <th>Rating</th>
+                                <th>Completion %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span style="font-size:1.2rem;">🥇</span></td>
+                                <td class="td-bold">Hassan Qureshi</td>
+                                <td>🔧 Plumber</td>
+                                <td>142</td>
+                                <td style="color:var(--gold);">SAR 38,400</td>
+                                <td>⭐ 4.8</td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                                        <div style="flex:1;background:var(--border);border-radius:100px;height:6px;">
+                                            <div
+                                                style="width:97%;background:var(--success);border-radius:100px;height:6px;">
+                                            </div>
+                                        </div>97%
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size:1.2rem;">🥈</span></td>
+                                <td class="td-bold">Yousuf Nasser</td>
+                                <td>🚛 Flatbed</td>
+                                <td>89</td>
+                                <td style="color:var(--gold);">SAR 62,100</td>
+                                <td>⭐ 4.6</td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                                        <div style="flex:1;background:var(--border);border-radius:100px;height:6px;">
+                                            <div
+                                                style="width:94%;background:var(--success);border-radius:100px;height:6px;">
+                                            </div>
+                                        </div>94%
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size:1.2rem;">🥉</span></td>
+                                <td class="td-bold">Rami Al-Joudi</td>
+                                <td>⚡ Electrician</td>
+                                <td>201</td>
+                                <td style="color:var(--gold);">SAR 32,000</td>
+                                <td>⭐ 4.9</td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                                        <div style="flex:1;background:var(--border);border-radius:100px;height:6px;">
+                                            <div
+                                                style="width:99%;background:var(--success);border-radius:100px;height:6px;">
+                                            </div>
+                                        </div>99%
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="td-bold">Adel Al-Khatib</td>
+                                <td>📦 Delivery</td>
+                                <td>318</td>
+                                <td style="color:var(--gold);">SAR 18,800</td>
+                                <td>⭐ 4.5</td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                                        <div style="flex:1;background:var(--border);border-radius:100px;height:6px;">
+                                            <div
+                                                style="width:91%;background:var(--warning);border-radius:100px;height:6px;">
+                                            </div>
+                                        </div>91%
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="td-bold">Tariq Badr</td>
+                                <td>🪑 Carpenter</td>
+                                <td>67</td>
+                                <td style="color:var(--gold);">SAR 22,500</td>
+                                <td>⭐ 4.7</td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                                        <div style="flex:1;background:var(--border);border-radius:100px;height:6px;">
+                                            <div
+                                                style="width:95%;background:var(--success);border-radius:100px;height:6px;">
+                                            </div>
+                                        </div>95%
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const months = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'];
+        document.addEventListener('DOMContentLoaded', () => {
+            createLineChart('monthlyRevChart', months, [820000, 940000, 870000, 1100000, 1340000, 1560000, 1820000], 'Revenue SAR');
+            createBarChart('catAnalyticsChart', ['Electrical', 'Plumbing', 'Delivery', 'Carpentry', 'Flatbed', 'Painting'], [2840, 2285, 3122, 1198, 1057, 812], 'Jobs');
+            createLineChart('regChart', months, [520, 680, 590, 820, 940, 1100, 1280], 'New Customers');
+            createBarChart('ratingChart', ['Electrical', 'Plumbing', 'Delivery', 'Carpentry', 'Flatbed', 'Painting'], [4.9, 4.8, 4.5, 4.7, 4.6, 4.4], 'Avg Rating');
+        });
+
+        function setRange(btn, days) {
+            document.querySelectorAll('[onclick^="setRange"]').forEach(b => b.className = 'btn btn-ghost btn-sm');
+            btn.className = 'btn btn-primary btn-sm';
+            showToast(`Showing last ${days} days`, 'info');
+        }
+
+        function downloadCSV() {
+            const rows = [
+                ['Month', 'Revenue SAR', 'Jobs', 'New Customers'],
+                ['Aug 2025', '820000', '1840', '520'],
+                ['Sep 2025', '940000', '2110', '680'],
+                ['Oct 2025', '870000', '1950', '590'],
+                ['Nov 2025', '1100000', '2470', '820'],
+                ['Dec 2025', '1340000', '3010', '940'],
+                ['Jan 2026', '1560000', '3500', '1100'],
+                ['Feb 2026', '1820000', '4060', '1280'],
+            ];
+            const csv = rows.map(r => r.join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'tijwaal_analytics.csv';
+            a.click();
+            showToast('CSV downloaded successfully', 'success');
+        }
+    </script>
+</body>
+
+</html>

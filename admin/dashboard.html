@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – Tijwaal Admin</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gradient">
+    <div id="sidebarOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none;"
+        onclick="document.querySelector('.sidebar').classList.remove('open');this.style.display='none';"></div>
+
+    <!-- Sidebar -->
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">T</div>
+                <div>
+                    <div class="logo-text">Tijwaal Admin</div>
+                    <div class="logo-sub">Control Panel</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Main</div>
+                <a href="dashboard.html" class="nav-link active"><span class="nav-icon">📊</span> Dashboard</a>
+                <div class="nav-section-label">Users</div>
+                <a href="users.html" class="nav-link"><span class="nav-icon">👥</span> Customers</a>
+                <a href="providers.html" class="nav-link"><span class="nav-icon">🔧</span> Providers <span
+                        class="nav-badge">7</span></a>
+                <div class="nav-section-label">Configuration</div>
+                <a href="categories.html" class="nav-link"><span class="nav-icon">🗂️</span> Categories</a>
+                <a href="fees.html" class="nav-link"><span class="nav-icon">⚙️</span> Fees & Taxes</a>
+                <div class="nav-section-label">Operations</div>
+                <a href="disputes.html" class="nav-link"><span class="nav-icon">⚖️</span> Disputes <span
+                        class="nav-badge">3</span></a>
+                <a href="wallet.html" class="nav-link"><span class="nav-icon">💰</span> Wallet</a>
+                <a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span> Analytics</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../index.html" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:0.5rem;">🏠 Platform
+                    Home</a>
+                <a href="login.html" class="btn btn-ghost btn-sm btn-block" style="color:var(--danger);">← Sign Out</a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main-content">
+            <div class="topbar">
+                <button id="sidebarToggle" class="icon-btn"
+                    onclick="document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').style.display = document.querySelector('.sidebar').classList.contains('open') ? 'flex' : 'none';">☰</button>
+                <div class="topbar-title">Dashboard Overview</div>
+                <div class="topbar-actions">
+                    <div class="icon-btn">🔔<span class="dot"></span></div>
+                    <div class="avatar">A</div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="page-header">
+                    <div>
+                        <h2>Good evening, Admin 👋</h2>
+                        <p>Here's what's happening on Tijwaal today.</p>
+                    </div>
+                    <a href="analytics.html" class="btn btn-primary">View Full Report</a>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background:var(--gold-dim); color:var(--gold);">👥</div>
+                        <div class="kpi-label">Total Customers</div>
+                        <div class="kpi-value">52,481</div>
+                        <div class="kpi-delta up">↑ 4.2% this week</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background:var(--teal-dim); color:var(--teal);">🔧</div>
+                        <div class="kpi-label">Active Providers</div>
+                        <div class="kpi-value">8,204</div>
+                        <div class="kpi-delta up">↑ 1.8% this week</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background:var(--success-dim); color:var(--success);">✅</div>
+                        <div class="kpi-label">Jobs Today</div>
+                        <div class="kpi-value">1,357</div>
+                        <div class="kpi-delta up">↑ 12% vs yesterday</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background:rgba(139,92,246,0.15); color:#8B5CF6;">💳</div>
+                        <div class="kpi-label">Revenue Today</div>
+                        <div class="kpi-value">SAR 94,820</div>
+                        <div class="kpi-delta up">↑ 8.5% vs yesterday</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background:var(--danger-dim); color:var(--danger);">⚖️</div>
+                        <div class="kpi-label">Open Disputes</div>
+                        <div class="kpi-value">3</div>
+                        <div class="kpi-delta down">↑ 1 new today</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background:var(--warning-dim); color:var(--warning);">⏳</div>
+                        <div class="kpi-label">Pending Approvals</div>
+                        <div class="kpi-value">7</div>
+                        <div class="kpi-delta" style="color:var(--text-muted);">providers awaiting</div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid-2 mb-3">
+                    <div class="chart-wrap">
+                        <div class="chart-title">📈 Revenue – Last 7 Days (SAR)</div>
+                        <canvas id="revenueChart" height="140"></canvas>
+                    </div>
+                    <div class="chart-wrap">
+                        <div class="chart-title">📊 Jobs by Category</div>
+                        <canvas id="categoryChart" height="140"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Jobs + Pending Approvals -->
+                <div class="grid-2">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3>Recent Jobs</h3>
+                            <a href="analytics.html" class="btn btn-ghost btn-sm">View All</a>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Job ID</th>
+                                        <th>Customer</th>
+                                        <th>Service</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="td-bold">#J-7842</td>
+                                        <td>Ahmed Al-Rashid</td>
+                                        <td>Electrician</td>
+                                        <td><span class="badge badge-success">Completed</span></td>
+                                        <td style="color:var(--gold);">SAR 280</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-bold">#J-7841</td>
+                                        <td>Sara Al-Mutiri</td>
+                                        <td>Plumber</td>
+                                        <td><span class="badge badge-teal">In Progress</span></td>
+                                        <td style="color:var(--gold);">SAR 150</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-bold">#J-7840</td>
+                                        <td>Khalid Hassan</td>
+                                        <td>Delivery</td>
+                                        <td><span class="badge badge-gold">Bidding</span></td>
+                                        <td style="color:var(--text-muted);">—</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-bold">#J-7839</td>
+                                        <td>Fatima Noor</td>
+                                        <td>Carpenter</td>
+                                        <td><span class="badge badge-success">Completed</span></td>
+                                        <td style="color:var(--gold);">SAR 420</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-bold">#J-7838</td>
+                                        <td>Omar Al-Ghamdi</td>
+                                        <td>Flatbed</td>
+                                        <td><span class="badge badge-danger">Disputed</span></td>
+                                        <td style="color:var(--danger);">SAR 900</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3>Pending Approvals</h3>
+                            <a href="providers.html" class="btn btn-ghost btn-sm">Manage All</a>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                            <div class="card" style="padding:1rem; display:flex; align-items:center; gap:0.75rem;">
+                                <div class="avatar-sm">M</div>
+                                <div style="flex:1;">
+                                    <div style="font-weight:600; font-size:0.88rem;">Mohammed Al-Farsi</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">Electrician · Riyadh</div>
+                                </div>
+                                <a href="providers.html" class="btn btn-success btn-sm">Review</a>
+                            </div>
+                            <div class="card" style="padding:1rem; display:flex; align-items:center; gap:0.75rem;">
+                                <div class="avatar-sm">L</div>
+                                <div style="flex:1;">
+                                    <div style="font-weight:600; font-size:0.88rem;">Layla Al-Zahrani</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">Delivery · Jeddah</div>
+                                </div>
+                                <a href="providers.html" class="btn btn-success btn-sm">Review</a>
+                            </div>
+                            <div class="card" style="padding:1rem; display:flex; align-items:center; gap:0.75rem;">
+                                <div class="avatar-sm">A</div>
+                                <div style="flex:1;">
+                                    <div style="font-weight:600; font-size:0.88rem;">Abdullah Saeed</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">Plumber · Dammam</div>
+                                </div>
+                                <a href="providers.html" class="btn btn-success btn-sm">Review</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            createLineChart('revenueChart',
+                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                [72400, 85200, 68900, 91200, 78500, 103400, 94820],
+                'Revenue (SAR)'
+            );
+            createBarChart('categoryChart',
+                ['Electrical', 'Plumbing', 'Delivery', 'Carpentry', 'Flatbed', 'Painting'],
+                [340, 285, 422, 198, 157, 112],
+                'Jobs'
+            );
+        });
+    </script>
+</body>
+
+</html>
