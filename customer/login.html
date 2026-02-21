@@ -201,8 +201,10 @@
                         <input class="form-control" type="tel" placeholder="5X XXX XXXX" id="phoneInput" />
                     </div>
                 </div>
-                <!-- Invisible reCAPTCHA anchor -->
-                <div id="recaptcha-container"></div>
+                <!-- Invisible reCAPTCHA container -->
+                <div id="recaptcha-container">
+                    <div id="recaptcha-anchor"></div>
+                </div>
                 <button class="btn btn-primary btn-block mt-3" id="sendSmsBtn" onclick="sendPhoneOTP()">Send SMS Code
                     →</button>
             </div>
@@ -275,19 +277,26 @@
         let countdownTimer;
         let currentMethod = 'phone';   // 'phone' | 'email'
         let emailDemoCode = '';         // random code for email beta
-        let recaptchaVerifier;
+        let recaptchaVerifier = null;
         let confirmationResult = null; // Firebase SMS confirmation
 
         // ──────────────────────────────────────────────
-        // Initialise invisible reCAPTCHA on page load
+        // Initialise / Reset reCAPTCHA Logic
         // ──────────────────────────────────────────────
-        window.addEventListener('load', () => {
-            recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        function resetRecaptcha() {
+            if (recaptchaVerifier) {
+                try { recaptchaVerifier.clear(); } catch (e) { }
+            }
+            // Re-create the anchor inside the container to avoid "already rendered" error
+            document.getElementById('recaptcha-container').innerHTML = '<div id="recaptcha-anchor"></div>';
+            recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-anchor', {
                 size: 'invisible',
-                callback: () => { /* reCAPTCHA solved automatically */ }
+                callback: () => { /* solved */ }
             });
-            recaptchaVerifier.render();
-        });
+            return recaptchaVerifier.render(); // returns a promise
+        }
+
+        window.addEventListener('load', resetRecaptcha);
 
         // ──────────────────────────────────────────────
         // Method toggle
@@ -313,6 +322,8 @@
             btn.innerHTML = '<span class="loading-spinner"></span> Sending…';
 
             try {
+                // Ensure recaptcha is rendered then send
+                await recaptchaVerifier.render();
                 confirmationResult = await firebaseAuth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier);
                 document.getElementById('sentTo').textContent = '+966 ' + raw;
                 document.getElementById('methodNote').textContent = '📱 Check your SMS messages.';
@@ -322,25 +333,23 @@
             } catch (err) {
                 console.error(err);
                 showToast('Error: ' + (err.message || 'Could not send SMS'), 'error');
-                // Reset reCAPTCHA so user can retry
-                recaptchaVerifier.clear();
-                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
-                recaptchaVerifier.render();
-                btn.disabled = false;
-                btn.innerHTML = 'Send SMS Code →';
+                // Use the new reset function on error to allow retry
+                resetRecaptcha().then(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Send SMS Code →';
+                });
             }
         }
 
         // ──────────────────────────────────────────────
-        // Email – Beta / Demo mode (shows code on screen)
+        // Email – Beta / Demo mode
         // ──────────────────────────────────────────────
         function sendEmailOTP() {
             const email = document.getElementById('emailInput').value.trim();
             if (!email.includes('@') || !email.includes('.')) { showToast('Enter a valid email address', 'warning'); return; }
 
-            // Generate a random 6-digit code (client-side demo only)
             emailDemoCode = String(Math.floor(100000 + Math.random() * 900000));
-            confirmationResult = null; // not using Firebase for email
+            confirmationResult = null;
 
             document.getElementById('sentTo').textContent = email;
             document.getElementById('methodNote').textContent = '📧 Demo mode – code shown below (beta only).';
@@ -389,7 +398,6 @@
             btn.innerHTML = '<span class="loading-spinner"></span> Verifying…';
 
             if (currentMethod === 'phone' && confirmationResult) {
-                // ── Real Firebase phone verification ──
                 try {
                     await confirmationResult.confirm(code);
                     clearInterval(countdownTimer);
@@ -402,7 +410,6 @@
                     btn.innerHTML = 'Verify &amp; Continue →';
                 }
             } else {
-                // ── Demo email code check ──
                 if (code === emailDemoCode) {
                     clearInterval(countdownTimer);
                     showToast('✅ Verified! Redirecting…', 'success');
@@ -415,9 +422,6 @@
             }
         }
 
-        // ──────────────────────────────────────────────
-        // Resend / Countdown
-        // ──────────────────────────────────────────────
         function resendCode() {
             getOTPDigits().forEach(inp => inp.value = '');
             if (currentMethod === 'phone') {
@@ -443,14 +447,10 @@
             }, 1000);
         }
 
-        // ──────────────────────────────────────────────
-        // Utilities
-        // ──────────────────────────────────────────────
         function getOTPDigits() {
             return ['otp1', 'otp2', 'otp3', 'otp4', 'otp5', 'otp6'].map(id => document.getElementById(id));
         }
 
-        // OTP auto-advance
         getOTPDigits().forEach((inp, i, all) => {
             inp.addEventListener('input', () => { if (inp.value && i < all.length - 1) all[i + 1].focus(); });
             inp.addEventListener('keydown', e => { if (e.key === 'Backspace' && !inp.value && i > 0) all[i - 1].focus(); });
