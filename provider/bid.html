@@ -205,7 +205,8 @@
             const filteredRequests = requests.filter(req => {
                 if (!req.lat || !req.lng) return true; // Show legacy ones without coords
                 const distance = getDistance(providerLat, providerLng, req.lat, req.lng);
-                return distance <= 10; // Within 10 km
+                console.log(`Distance to ${req.category}: ${distance} km`);
+                return true; // <-- TEMPORARILY DISABLED 10km LIMIT FOR DEBUGGING
             });
 
             if (filteredRequests.length === 0) {

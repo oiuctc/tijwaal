@@ -39,11 +39,22 @@ const FirestoreService = {
     onOpenRequests(callback) {
         return firebaseDB.collection('requests')
             .where('status', '==', 'open')
-            .orderBy('createdAt', 'desc')
+            // Temporarily removing orderBy('createdAt', 'desc') as it requires a Composite Index in Firestore
             .onSnapshot(snapshot => {
                 const requests = [];
                 snapshot.forEach(doc => requests.push({ id: doc.id, ...doc.data() }));
+                // Sort manually in JS to avoid index requirement
+                requests.sort((a, b) => {
+                    if (!a.createdAt) return 1;
+                    if (!b.createdAt) return -1;
+                    // Handle serverTimestamps which might be null locally first
+                    const timeA = a.createdAt.toDate ? a.createdAt.toDate() : new Date();
+                    const timeB = b.createdAt.toDate ? b.createdAt.toDate() : new Date();
+                    return timeB - timeA;
+                });
                 callback(requests);
+            }, error => {
+                console.error("Firestore onOpenRequests Error:", error);
             });
     },
 
