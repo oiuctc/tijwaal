@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Live Tracking – Tijwaal</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <style>
         .track-layout {
@@ -13,7 +14,7 @@
             min-height: 100vh;
         }
 
-        .map-panel iframe {
+        .map-panel #map {
             width: 100%;
             height: 100%;
             min-height: 100vh;
@@ -85,7 +86,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .map-panel iframe {
+            .map-panel #map {
                 min-height: 220px;
                 height: 220px;
             }
@@ -97,9 +98,7 @@
     <div class="track-layout">
         <div class="map-panel">
             <!-- Live tracking marker in Riyadh -->
-            <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=46.67,24.69,46.71,24.73&layer=mapnik&marker=24.713,46.690"
-                title="Live tracking map"></iframe>
+            <div id="map"></div>
             <!-- Live indicator overlay -->
             <div
                 style="position:absolute;top:1rem;left:1rem;background:rgba(7,12,24,0.85);backdrop-filter:blur(8px);border:1px solid var(--danger);border-radius:var(--radius-md);padding:0.5rem 1rem;display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;">
@@ -216,7 +215,8 @@
                             (15%)</span><span>SAR 27</span></div>
                     <div
                         style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:0.5rem;font-weight:700;">
-                        <span>Total</span><span style="color:var(--gold);">SAR 207</span></div>
+                        <span>Total</span><span style="color:var(--gold);">SAR 207</span>
+                    </div>
                 </div>
             </div>
 
@@ -228,7 +228,16 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../js/map-tracker.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tracker = new MapTracker('map', { zoom: 16 });
+            tracker.init();
+            tracker.startTracking();
+        });
+    </script>
 </body>
 
 </html>
