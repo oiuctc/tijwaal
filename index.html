@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tijwaal – Service & Transportation Platform</title>
-  <meta name="description" content="Tijwaal connects customers with top-rated service providers and transporters through a competitive bidding platform. Book electricians, plumbers, delivery drivers and more." />
+  <meta name="description"
+    content="Tijwaal connects customers with top-rated service providers and transporters through a competitive bidding platform. Book electricians, plumbers, delivery drivers and more." />
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* ── Landing-specific styles ── */
@@ -19,86 +21,164 @@
       position: relative;
       overflow: hidden;
     }
+
     .hero::before {
       content: '';
-      position: absolute; inset: 0;
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(212,168,67,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(45,212,191,0.1) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(212, 168, 67, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(45, 212, 191, 0.1) 0%, transparent 60%);
       pointer-events: none;
     }
+
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       background: var(--gold-dim);
       border: 1px solid var(--border-gold);
       color: var(--gold);
-      font-size: 0.8rem; font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 600;
       padding: 0.35rem 0.9rem;
       border-radius: 100px;
       margin-bottom: 1.5rem;
       letter-spacing: 0.04em;
     }
-    .hero h1 span { color: var(--gold); }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
     .hero-ar {
       font-family: 'Cairo', sans-serif;
       font-size: clamp(1.2rem, 3vw, 2rem);
       color: var(--text-secondary);
       margin-top: 0.5rem;
     }
+
     .hero-desc {
       max-width: 600px;
       font-size: 1.05rem;
       margin: 1.5rem auto;
       color: var(--text-secondary);
     }
-    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem; }
-    .hero-scroll {
-      position: absolute; bottom: 2rem;
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      color: var(--text-muted); font-size: 0.75rem;
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
     }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
     .scroll-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
       animation: bounce 1.5s infinite;
     }
-    @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(6px)} }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(6px)
+      }
+    }
 
     .logo-mark {
-      width: 72px; height: 72px;
+      width: 72px;
+      height: 72px;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
       border-radius: 18px;
-      display: grid; place-items: center;
-      font-size: 2rem; font-weight: 900;
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      font-weight: 900;
       color: #07080D;
       margin: 0 auto 1.5rem;
       box-shadow: var(--shadow-gold);
     }
+
     /* Stats bar */
     .stats-bar {
-      display: flex; justify-content: center; flex-wrap: wrap;
-      gap: 0; border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
+      background: rgba(255, 255, 255, 0.02);
     }
+
     .stat {
-      flex: 1; min-width: 150px;
-      text-align: center; padding: 1.5rem;
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 1.5rem;
       border-right: 1px solid var(--border);
     }
-    .stat:last-child { border-right: none; }
-    .stat-val { font-size: 1.8rem; font-weight: 800; color: var(--gold); }
-    .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.2rem; }
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.2rem;
+    }
 
     /* Sections */
-    section { padding: 5rem 2rem; }
-    .section-tag {
-      font-size: 0.75rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--gold); margin-bottom: 0.75rem;
+    section {
+      padding: 5rem 2rem;
     }
-    .section-title { margin-bottom: 0.75rem; }
-    .section-sub { color: var(--text-secondary); max-width: 520px; }
-    .section-header { margin-bottom: 3rem; }
+
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      margin-bottom: 0.75rem;
+    }
+
+    .section-sub {
+      color: var(--text-secondary);
+      max-width: 520px;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
 
     /* Features */
     .features-grid {
@@ -108,6 +188,7 @@
       max-width: 1100px;
       margin: 0 auto;
     }
+
     .feature-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -116,20 +197,33 @@
       backdrop-filter: blur(8px);
       transition: all var(--transition);
     }
+
     .feature-card:hover {
       background: var(--bg-card-hover);
       transform: translateY(-4px);
       border-color: var(--border-gold);
     }
+
     .feat-icon {
-      width: 52px; height: 52px;
+      width: 52px;
+      height: 52px;
       border-radius: var(--radius-sm);
-      display: grid; place-items: center;
+      display: grid;
+      place-items: center;
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
-    .feat-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .feat-desc  { font-size: 0.85rem; color: var(--text-secondary); }
+
+    .feat-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feat-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
 
     /* Service Categories */
     .cat-grid {
@@ -139,6 +233,7 @@
       max-width: 1100px;
       margin: 0 auto;
     }
+
     .cat-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -148,15 +243,28 @@
       cursor: pointer;
       transition: all var(--transition);
     }
+
     .cat-card:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-gold);
       transform: translateY(-4px);
       box-shadow: var(--shadow-gold);
     }
-    .cat-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
-    .cat-name  { font-weight: 700; margin-bottom: 0.25rem; }
-    .cat-sub   { font-size: 0.75rem; color: var(--text-muted); }
+
+    .cat-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .cat-name {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .cat-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
 
     /* Roles */
     .roles-grid {
@@ -166,6 +274,7 @@
       max-width: 960px;
       margin: 0 auto;
     }
+
     .role-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -173,22 +282,58 @@
       padding: 2rem;
       transition: all var(--transition);
     }
-    .role-card:hover { background: var(--bg-card-hover); transform: translateY(-4px); }
-    .role-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+
+    .role-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+
+    .role-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
     .role-icon {
-      width: 50px; height: 50px;
+      width: 50px;
+      height: 50px;
       border-radius: var(--radius-sm);
-      display: grid; place-items: center;
+      display: grid;
+      place-items: center;
       font-size: 1.4rem;
     }
-    .role-name { font-size: 1.1rem; font-weight: 700; }
-    .role-ar   { font-size: 0.75rem; color: var(--text-muted); font-family: 'Cairo', sans-serif; }
-    .role-features { display: flex; flex-direction: column; gap: 0.5rem; }
-    .role-feat {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.85rem; color: var(--text-secondary);
+
+    .role-name {
+      font-size: 1.1rem;
+      font-weight: 700;
     }
-    .role-feat::before { content: '✓'; color: var(--gold); font-weight: 700; }
+
+    .role-ar {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .role-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .role-feat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .role-feat::before {
+      content: '✓';
+      color: var(--gold);
+      font-weight: 700;
+    }
 
     /* How it Works */
     .how-steps {
@@ -198,261 +343,440 @@
       max-width: 900px;
       margin: 0 auto;
     }
-    .how-step { flex: 1; text-align: center; position: relative; padding: 0 1rem; }
+
+    .how-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding: 0 1rem;
+    }
+
     .how-step::after {
       content: '→';
-      position: absolute; right: -18px; top: 16px;
-      color: var(--gold); font-size: 1.2rem;
+      position: absolute;
+      right: -18px;
+      top: 16px;
+      color: var(--gold);
+      font-size: 1.2rem;
     }
-    .how-step:last-child::after { display: none; }
+
+    .how-step:last-child::after {
+      display: none;
+    }
+
     .how-num {
-      width: 48px; height: 48px;
+      width: 48px;
+      height: 48px;
       background: var(--gold-dim);
       border: 2px solid var(--border-gold);
       border-radius: 50%;
-      display: grid; place-items: center;
+      display: grid;
+      place-items: center;
       margin: 0 auto 1rem;
-      font-weight: 800; color: var(--gold);
+      font-weight: 800;
+      color: var(--gold);
     }
-    .how-title { font-weight: 700; margin-bottom: 0.4rem; font-size: 0.95rem; }
-    .how-desc  { font-size: 0.8rem; color: var(--text-muted); }
+
+    .how-title {
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .how-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
 
     /* CTA banner */
     .cta-banner {
-      max-width: 800px; margin: 0 auto; text-align: center;
-      background: linear-gradient(135deg, rgba(212,168,67,0.12), rgba(45,212,191,0.08));
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(212, 168, 67, 0.12), rgba(45, 212, 191, 0.08));
       border: 1px solid var(--border-gold);
       border-radius: var(--radius-xl);
       padding: 3rem 2rem;
     }
-    .cta-banner h2 { margin-bottom: 1rem; }
-    .cta-banner p  { margin-bottom: 2rem; }
+
+    .cta-banner h2 {
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+      margin-bottom: 2rem;
+    }
 
     /* Navbar */
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 1rem 2rem;
-      background: rgba(7,12,24,0.85);
+      background: rgba(7, 12, 24, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-    .navbar-brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.2rem; }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
     .navbar-brand .bmark {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border-radius: 8px; display: grid; place-items: center;
-      font-size: 1rem; font-weight: 900; color: #07080D;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #07080D;
     }
-    .navbar-links { display: flex; align-items: center; gap: 1.5rem; }
-    .navbar-links a { font-size: 0.88rem; color: var(--text-secondary); transition: color var(--transition); }
-    .navbar-links a:hover { color: var(--text-primary); }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .navbar-links a {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+
+    .navbar-links a:hover {
+      color: var(--text-primary);
+    }
+
     footer {
-      text-align: center; padding: 2rem;
+      text-align: center;
+      padding: 2rem;
       border-top: 1px solid var(--border);
-      color: var(--text-muted); font-size: 0.82rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
     }
-    .footer-brand { font-weight: 700; color: var(--gold); font-size: 1rem; margin-bottom: 0.5rem; }
+
+    .footer-brand {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
   </style>
+  <script src="js/i18n.js"></script>
 </head>
-<body class="bg-gradient">
 
-<!-- Navbar -->
-<nav class="navbar">
-  <div class="navbar-brand">
-    <div class="bmark">T</div>
-    Tijwaal
-  </div>
-  <div class="navbar-links">
-    <a href="#features">Features</a>
-    <a href="#categories">Services</a>
-    <a href="#roles">Users</a>
-    <a href="admin/login.html" class="btn btn-primary btn-sm">Admin Panel</a>
-  </div>
-</nav>
+<body class="bg-gradient" data-theme="dark">
 
-<!-- Hero -->
-<section class="hero" id="home">
-  <div class="hero-badge">🇸🇦 &nbsp; Built for Saudi Arabia · Expanding Globally</div>
-  <div class="logo-mark fade-up">T</div>
-  <h1 class="fade-up-2">
-    The Smart Platform for<br /><span>Services & Transport</span>
-  </h1>
-  <p class="hero-ar fade-up-3">منصة تجوال للخدمات المنزلية والنقل</p>
-  <p class="hero-desc fade-up-3">
-    Book electricians, plumbers, delivery drivers and more through competitive bidding.
-    Real-time tracking, secure wallet payments, and full transparency.
-  </p>
-  <div class="hero-cta fade-up-4">
-    <a href="admin/login.html" class="btn btn-primary btn-lg">⚙️ Admin Panel</a>
-    <a href="customer/login.html" class="btn btn-secondary btn-lg">👤 Customer App</a>
-    <a href="provider/register.html" class="btn btn-ghost btn-lg">🔧 Provider Portal</a>
-  </div>
-  <div class="hero-scroll">
-    <div class="scroll-dot"></div>
-    Scroll to explore
-  </div>
-</section>
-
-<!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-val">50K+</div><div class="stat-label">Registered Customers</div></div>
-  <div class="stat"><div class="stat-val">8K+</div><div class="stat-label">Service Providers</div></div>
-  <div class="stat"><div class="stat-val">200K+</div><div class="stat-label">Jobs Completed</div></div>
-  <div class="stat"><div class="stat-val">4.9★</div><div class="stat-label">Average Rating</div></div>
-  <div class="stat"><div class="stat-val">15</div><div class="stat-label">Cities Covered</div></div>
-</div>
-
-<!-- Features -->
-<section id="features">
-  <div class="section-header text-center">
-    <div class="section-tag">Platform Features</div>
-    <h2 class="section-title">Everything you need, in one place</h2>
-    <p class="section-sub" style="margin:0 auto;">Competitive bidding, live tracking, secure wallets and admin control — all in a single unified platform.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card fade-up">
-      <div class="feat-icon" style="background:var(--gold-dim);">⚖️</div>
-      <div class="feat-title">Competitive Bidding</div>
-      <p class="feat-desc">Customers post requests and providers compete with bids — ensuring the best price and quality.</p>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="bmark">T</div>
+      Tijwaal
     </div>
-    <div class="feature-card fade-up-2">
-      <div class="feat-icon" style="background:var(--teal-dim);">📍</div>
-      <div class="feat-title">Real-Time GPS Tracking</div>
-      <p class="feat-desc">Live location sharing during job execution with ETA calculation and map-based discovery.</p>
-    </div>
-    <div class="feature-card fade-up-3">
-      <div class="feat-icon" style="background:rgba(139,92,246,0.15);">💳</div>
-      <div class="feat-title">Wallet & Payments</div>
-      <p class="feat-desc">Secure payment gateway integration with automatic fee deduction, provider wallets and withdrawals.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feat-icon" style="background:var(--success-dim);">🔔</div>
-      <div class="feat-title">Smart Notifications</div>
-      <p class="feat-desc">Push & SMS alerts for every job event. Admin-configurable templates for critical communications.</p>
-    </div>
-    <div class="feature-card fade-up-2">
-      <div class="feat-icon" style="background:var(--danger-dim);">🛡️</div>
-      <div class="feat-title">Dispute Resolution</div>
-      <p class="feat-desc">Admin-controlled dispute intervention with refund management and provider accountability tools.</p>
-    </div>
-    <div class="feature-card fade-up-3">
-      <div class="feat-icon" style="background:var(--gold-dim);">📊</div>
-      <div class="feat-title">Analytics & Reports</div>
-      <p class="feat-desc">Exportable reports on revenue, jobs, and provider performance with configurable date ranges.</p>
-    </div>
-  </div>
-</section>
+    <div class="navbar-links">
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#categories" data-i18n="nav_services">Services</a>
+      <a href="#roles" data-i18n="nav_users">Users</a>
+      <a href="admin/login.html" class="btn btn-primary btn-sm" data-i18n="nav_admin">Admin Panel</a>
 
-<!-- Service Categories -->
-<section id="categories" style="background:rgba(255,255,255,0.02); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <div class="section-header text-center">
-    <div class="section-tag">Service Categories</div>
-    <h2 class="section-title">Home Services & Transport</h2>
-    <p class="section-sub" style="margin:0 auto;">A wide range of professional services available at your fingertips.</p>
-  </div>
-  <div class="cat-grid">
-    <div class="cat-card"><div class="cat-emoji">⚡</div><div class="cat-name">Electrician</div><div class="cat-sub">كهربائي</div></div>
-    <div class="cat-card"><div class="cat-emoji">🔧</div><div class="cat-name">Plumber</div><div class="cat-sub">سباك</div></div>
-    <div class="cat-card"><div class="cat-emoji">🪑</div><div class="cat-name">Carpenter</div><div class="cat-sub">نجار</div></div>
-    <div class="cat-card"><div class="cat-emoji">🏠</div><div class="cat-name">Maintenance</div><div class="cat-sub">صيانة عامة</div></div>
-    <div class="cat-card"><div class="cat-emoji">🚗</div><div class="cat-name">Pickup & Drop</div><div class="cat-sub">توصيل</div></div>
-    <div class="cat-card"><div class="cat-emoji">📦</div><div class="cat-name">Item Delivery</div><div class="cat-sub">توصيل بضائع</div></div>
-    <div class="cat-card"><div class="cat-emoji">🚛</div><div class="cat-name">Flatbed & Goods</div><div class="cat-sub">نقل ثقيل</div></div>
-    <div class="cat-card"><div class="cat-emoji">🎨</div><div class="cat-name">Painting</div><div class="cat-sub">دهان</div></div>
-  </div>
-</section>
-
-<!-- How It Works -->
-<section>
-  <div class="section-header text-center">
-    <div class="section-tag">How It Works</div>
-    <h2 class="section-title">Simple. Fast. Transparent.</h2>
-  </div>
-  <div class="how-steps">
-    <div class="how-step"><div class="how-num">1</div><div class="how-title">Post Request</div><div class="how-desc">Describe your service need on the map</div></div>
-    <div class="how-step"><div class="how-num">2</div><div class="how-title">Compare Bids</div><div class="how-desc">Receive quotes from verified providers</div></div>
-    <div class="how-step"><div class="how-num">3</div><div class="how-title">Track Live</div><div class="how-desc">Watch your provider arrive in real time</div></div>
-    <div class="how-step"><div class="how-num">4</div><div class="how-title">Pay & Rate</div><div class="how-desc">Secure wallet payment & leave a review</div></div>
-  </div>
-</section>
-
-<!-- User Roles -->
-<section id="roles" style="background:rgba(255,255,255,0.02); border-top:1px solid var(--border);">
-  <div class="section-header text-center">
-    <div class="section-tag">User Roles</div>
-    <h2 class="section-title">A Platform for Everyone</h2>
-  </div>
-  <div class="roles-grid">
-    <div class="role-card card--gold">
-      <div class="role-header">
-        <div class="role-icon" style="background:var(--gold-dim);">👤</div>
-        <div><div class="role-name">Customer</div><div class="role-ar">العميل</div></div>
+      <div
+        style="display:flex; align-items:center; gap:0.5rem; border-left:1px solid var(--border); padding-left:1rem; margin-left:0.5rem;">
+        <button class="lang-btn" data-lang="en" onclick="updateLanguage('en')">EN</button>
+        <span style="color:var(--border);">|</span>
+        <button class="lang-btn" data-lang="ar" onclick="updateLanguage('ar')"
+          style="opacity:0.7; font-weight:normal;">عربي</button>
+        <button class="icon-btn" onclick="toggleTheme()" style="margin-left:0.5rem;" title="Toggle Theme">🌓</button>
       </div>
-      <div class="role-features">
-        <div class="role-feat">OTP login & profile management</div>
-        <div class="role-feat">Map-based service requests</div>
-        <div class="role-feat">Compare and accept bids</div>
-        <div class="role-feat">Live job tracking</div>
-        <div class="role-feat">Wallet payments & history</div>
-        <div class="role-feat">Submit reviews & support tickets</div>
-      </div>
-      <a href="customer/login.html" class="btn btn-primary btn-sm mt-3">Open Customer App</a>
     </div>
-    <div class="role-card">
-      <div class="role-header">
-        <div class="role-icon" style="background:var(--teal-dim);">🔧</div>
-        <div><div class="role-name">Service Provider</div><div class="role-ar">مزود الخدمة</div></div>
-      </div>
-      <div class="role-features">
-        <div class="role-feat">OTP registration & document upload</div>
-        <div class="role-feat">Browse and bid on job requests</div>
-        <div class="role-feat">Execute jobs with live GPS</div>
-        <div class="role-feat">Manage wallet & withdrawals</div>
-        <div class="role-feat">View customer feedback</div>
-      </div>
-      <a href="provider/register.html" class="btn btn-secondary btn-sm mt-3">Provider Portal</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-badge" data-i18n="hero_badge">🇸🇦 &nbsp; Built for Saudi Arabia · Expanding Globally</div>
+    <div class="logo-mark fade-up">T</div>
+    <h1 class="fade-up-2" data-i18n="hero_title">
+      The Smart Platform for<br /><span>Services & Transport</span>
+    </h1>
+    <p class="hero-ar fade-up-3" style="display:none;"></p>
+    <p class="hero-desc fade-up-3" data-i18n="hero_sub">
+      Book electricians, plumbers, delivery drivers and more through competitive bidding.
+      Real-time tracking, secure wallet payments, and full transparency.
+    </p>
+    <div class="hero-cta fade-up-4">
+      <a href="admin/login.html" class="btn btn-primary btn-lg" data-i18n="hero_btn_admin">⚙️ Admin Panel</a>
+      <a href="customer/login.html" class="btn btn-secondary btn-lg" data-i18n="hero_btn_cust">👤 Customer App</a>
+      <a href="provider/register.html" class="btn btn-ghost btn-lg" data-i18n="hero_btn_prov">🔧 Provider Portal</a>
     </div>
-    <div class="role-card">
-      <div class="role-header">
-        <div class="role-icon" style="background:rgba(139,92,246,0.15);">⚙️</div>
-        <div><div class="role-name">Administrator</div><div class="role-ar">المدير</div></div>
-      </div>
-      <div class="role-features">
-        <div class="role-feat">Approve & manage providers</div>
-        <div class="role-feat">Configure fees, taxes & categories</div>
-        <div class="role-feat">Resolve disputes</div>
-        <div class="role-feat">Monitor platform finances</div>
-        <div class="role-feat">Export analytics reports</div>
-      </div>
-      <a href="admin/login.html" class="btn btn-ghost btn-sm mt-3">Admin Panel →</a>
+    <div class="hero-scroll">
+      <div class="scroll-dot"></div>
+      <span data-i18n="scroll_explore">Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-val">50K+</div>
+      <div class="stat-label" data-i18n="stat_cust">Registered Customers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">8K+</div>
+      <div class="stat-label" data-i18n="stat_prov">Service Providers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">200K+</div>
+      <div class="stat-label" data-i18n="stat_jobs">Jobs Completed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">4.9★</div>
+      <div class="stat-label" data-i18n="stat_rating">Average Rating</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">15</div>
+      <div class="stat-label" data-i18n="stat_cities">Cities Covered</div>
     </div>
   </div>
-</section>
 
-<!-- CTA -->
-<section>
-  <div class="cta-banner">
-    <h2>Ready to Get Started?</h2>
-    <p>Join thousands of customers and providers on Saudi Arabia's fastest growing service platform.</p>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <a href="customer/login.html" class="btn btn-primary btn-lg">Start as Customer</a>
-      <a href="provider/register.html" class="btn btn-secondary btn-lg">Join as Provider</a>
+  <!-- Features -->
+  <section id="features">
+    <div class="section-header text-center">
+      <div class="section-tag" data-i18n="feat_tag">Platform Features</div>
+      <h2 class="section-title" data-i18n="feat_title">Everything you need, in one place</h2>
+      <p class="section-sub" style="margin:0 auto;" data-i18n="feat_sub">Competitive bidding, live tracking, secure
+        wallets and admin control — all in a single unified platform.</p>
     </div>
-  </div>
-</section>
+    <div class="features-grid">
+      <div class="feature-card fade-up">
+        <div class="feat-icon" style="background:var(--gold-dim);">⚖️</div>
+        <div class="feat-title" data-i18n="feat1_t">Competitive Bidding</div>
+        <p class="feat-desc" data-i18n="feat1_d">Customers post requests and providers compete with bids — ensuring the
+          best price and quality.</p>
+      </div>
+      <div class="feature-card fade-up-2">
+        <div class="feat-icon" style="background:var(--teal-dim);">📍</div>
+        <div class="feat-title" data-i18n="feat2_t">Real-Time GPS Tracking</div>
+        <p class="feat-desc" data-i18n="feat2_d">Live location sharing during job execution with ETA calculation and
+          map-based discovery.</p>
+      </div>
+      <div class="feature-card fade-up-3">
+        <div class="feat-icon" style="background:rgba(139,92,246,0.15);">💳</div>
+        <div class="feat-title" data-i18n="feat3_t">Wallet & Payments</div>
+        <p class="feat-desc" data-i18n="feat3_d">Secure payment gateway integration with automatic fee deduction,
+          provider wallets and withdrawals.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feat-icon" style="background:var(--success-dim);">🔔</div>
+        <div class="feat-title" data-i18n="feat4_t">Smart Notifications</div>
+        <p class="feat-desc" data-i18n="feat4_d">Push & SMS alerts for every job event. Admin-configurable templates for
+          critical communications.</p>
+      </div>
+      <div class="feature-card fade-up-2">
+        <div class="feat-icon" style="background:var(--danger-dim);">🛡️</div>
+        <div class="feat-title" data-i18n="feat5_t">Dispute Resolution</div>
+        <p class="feat-desc" data-i18n="feat5_d">Admin-controlled dispute intervention with refund management and
+          provider accountability tools.</p>
+      </div>
+      <div class="feature-card fade-up-3">
+        <div class="feat-icon" style="background:var(--gold-dim);">📊</div>
+        <div class="feat-title" data-i18n="feat6_t">Analytics & Reports</div>
+        <p class="feat-desc" data-i18n="feat6_d">Exportable reports on revenue, jobs, and provider performance with
+          configurable date ranges.</p>
+      </div>
+    </div>
+  </section>
 
-<!-- Footer -->
-<footer>
-  <div class="footer-brand">Tijwaal · تجوال</div>
-  <p>© 2026 Tijwaal Service & Transportation Platform. All rights reserved.</p>
-  <p style="margin-top:0.5rem;">
-    <a href="admin/login.html" style="color:var(--gold);">Admin Panel</a> &nbsp;·&nbsp;
-    <a href="customer/login.html" style="color:var(--text-secondary);">Customer Login</a> &nbsp;·&nbsp;
-    <a href="provider/register.html" style="color:var(--text-secondary);">Provider Portal</a>
-  </p>
-</footer>
+  <!-- Service Categories -->
+  <section id="categories"
+    style="background:rgba(255,255,255,0.02); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="section-header text-center">
+      <div class="section-tag" data-i18n="cat_tag">Service Categories</div>
+      <h2 class="section-title" data-i18n="cat_title">Home Services & Transport</h2>
+      <p class="section-sub" style="margin:0 auto;" data-i18n="cat_sub">A wide range of professional services available
+        at your fingertips.
+      </p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-emoji">⚡</div>
+        <div class="cat-name">Electrician</div>
+        <div class="cat-sub">كهربائي</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">🔧</div>
+        <div class="cat-name">Plumber</div>
+        <div class="cat-sub">سباك</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">🪑</div>
+        <div class="cat-name">Carpenter</div>
+        <div class="cat-sub">نجار</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">🏠</div>
+        <div class="cat-name">Maintenance</div>
+        <div class="cat-sub">صيانة عامة</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">🚗</div>
+        <div class="cat-name">Pickup & Drop</div>
+        <div class="cat-sub">توصيل</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">📦</div>
+        <div class="cat-name">Item Delivery</div>
+        <div class="cat-sub">توصيل بضائع</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">🚛</div>
+        <div class="cat-name">Flatbed & Goods</div>
+        <div class="cat-sub">نقل ثقيل</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-emoji">🎨</div>
+        <div class="cat-name">Painting</div>
+        <div class="cat-sub">دهان</div>
+      </div>
+    </div>
+  </section>
 
-<script src="js/main.js"></script>
+  <!-- How It Works -->
+  <section>
+    <div class="section-header text-center">
+      <div class="section-tag" data-i18n="step_tag">How It Works</div>
+      <h2 class="section-title" data-i18n="step_title">Simple. Fast. Transparent.</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <div class="how-title" data-i18n="step1_t">Post Request</div>
+        <div class="how-desc" data-i18n="step1_d">Describe your service need on the map</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <div class="how-title" data-i18n="step2_t">Compare Bids</div>
+        <div class="how-desc" data-i18n="step2_d">Receive quotes from verified providers</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <div class="how-title" data-i18n="step3_t">Track Live</div>
+        <div class="how-desc" data-i18n="step3_d">Watch your provider arrive in real time</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">4</div>
+        <div class="how-title" data-i18n="step4_t">Pay & Rate</div>
+        <div class="how-desc" data-i18n="step4_d">Secure wallet payment & leave a review</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- User Roles -->
+  <section id="roles" style="background:rgba(255,255,255,0.02); border-top:1px solid var(--border);">
+    <div class="section-header text-center">
+      <div class="section-tag" data-i18n="role_tag">User Roles</div>
+      <h2 class="section-title" data-i18n="role_title">A Platform for Everyone</h2>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card card--gold">
+        <div class="role-header">
+          <div class="role-icon" style="background:var(--gold-dim);">👤</div>
+          <div>
+            <div class="role-name">Customer</div>
+            <div class="role-ar">العميل</div>
+          </div>
+        </div>
+        <div class="role-features">
+          <div class="role-feat">OTP login & profile management</div>
+          <div class="role-feat">Map-based service requests</div>
+          <div class="role-feat">Compare and accept bids</div>
+          <div class="role-feat">Live job tracking</div>
+          <div class="role-feat">Wallet payments & history</div>
+          <div class="role-feat">Submit reviews & support tickets</div>
+        </div>
+        <a href="customer/login.html" class="btn btn-primary btn-sm mt-3">Open Customer App</a>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-icon" style="background:var(--teal-dim);">🔧</div>
+          <div>
+            <div class="role-name">Service Provider</div>
+            <div class="role-ar">مزود الخدمة</div>
+          </div>
+        </div>
+        <div class="role-features">
+          <div class="role-feat">OTP registration & document upload</div>
+          <div class="role-feat">Browse and bid on job requests</div>
+          <div class="role-feat">Execute jobs with live GPS</div>
+          <div class="role-feat">Manage wallet & withdrawals</div>
+          <div class="role-feat">View customer feedback</div>
+        </div>
+        <a href="provider/register.html" class="btn btn-secondary btn-sm mt-3">Provider Portal</a>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-icon" style="background:rgba(139,92,246,0.15);">⚙️</div>
+          <div>
+            <div class="role-name">Administrator</div>
+            <div class="role-ar">المدير</div>
+          </div>
+        </div>
+        <div class="role-features">
+          <div class="role-feat">Approve & manage providers</div>
+          <div class="role-feat">Configure fees, taxes & categories</div>
+          <div class="role-feat">Resolve disputes</div>
+          <div class="role-feat">Monitor platform finances</div>
+          <div class="role-feat">Export analytics reports</div>
+        </div>
+        <a href="admin/login.html" class="btn btn-ghost btn-sm mt-3">Admin Panel →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta-banner">
+      <h2 data-i18n="cta_title">Ready to Get Started?</h2>
+      <p data-i18n="cta_sub">Join thousands of customers and providers on Saudi Arabia's fastest growing service
+        platform.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="customer/login.html" class="btn btn-primary btn-lg" data-i18n="cta_btn_cust">Start as Customer</a>
+        <a href="provider/register.html" class="btn btn-secondary btn-lg" data-i18n="cta_btn_prov">Join as Provider</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">Tijwaal · تجوال</div>
+    <p>© 2026 Tijwaal Service & Transportation Platform. All rights reserved.</p>
+    <p style="margin-top:0.5rem;">
+      <a href="admin/login.html" style="color:var(--gold);">Admin Panel</a> &nbsp;·&nbsp;
+      <a href="customer/login.html" style="color:var(--text-secondary);">Customer Login</a> &nbsp;·&nbsp;
+      <a href="provider/register.html" style="color:var(--text-secondary);">Provider Portal</a>
+    </p>
+  </footer>
+
+  <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -4,15 +4,15 @@
 
 // ── Sidebar Toggle ───────────────────────────────────────
 function initSidebar() {
-  const sidebar  = document.querySelector('.sidebar');
-  const toggle   = document.getElementById('sidebarToggle');
-  const overlay  = document.getElementById('sidebarOverlay');
+  const sidebar = document.querySelector('.sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  const overlay = document.getElementById('sidebarOverlay');
   if (!sidebar) return;
 
-  function open()  { sidebar.classList.add('open'); overlay && overlay.classList.add('open'); }
+  function open() { sidebar.classList.add('open'); overlay && overlay.classList.add('open'); }
   function close() { sidebar.classList.remove('open'); overlay && overlay.classList.remove('open'); }
 
-  toggle  && toggle.addEventListener('click', () => sidebar.classList.contains('open') ? close() : open());
+  toggle && toggle.addEventListener('click', () => sidebar.classList.contains('open') ? close() : open());
   overlay && overlay.addEventListener('click', close);
 
   // Active nav link highlight
@@ -65,8 +65,8 @@ function showToast(message, type = 'success') {
     document.body.appendChild(container);
   }
   const colors = { success: '#22C55E', danger: '#EF4444', warning: '#F59E0B', info: '#D4A843' };
-  const icons  = { success: '✓', danger: '✕', warning: '⚠', info: 'ℹ' };
-  const toast  = document.createElement('div');
+  const icons = { success: '✓', danger: '✕', warning: '⚠', info: 'ℹ' };
+  const toast = document.createElement('div');
   toast.style.cssText = `
     background:#0F1628; border:1px solid ${colors[type]}44; color:#F0F4FF;
     padding:0.75rem 1.25rem; border-radius:10px; font-size:0.88rem;
@@ -111,15 +111,15 @@ function initOTP() {
 // ── Step Wizard ──────────────────────────────────────────
 function initWizard() {
   let current = 0;
-  const steps  = document.querySelectorAll('.wizard-step');
-  const dots   = document.querySelectorAll('.step-dot');
-  const lines  = document.querySelectorAll('.step-line');
+  const steps = document.querySelectorAll('.wizard-step');
+  const dots = document.querySelectorAll('.step-dot');
+  const lines = document.querySelectorAll('.step-line');
 
   function show(n) {
     steps.forEach((s, i) => s.style.display = i === n ? 'block' : 'none');
     dots.forEach((d, i) => {
       d.classList.toggle('active', i === n);
-      d.classList.toggle('done',   i < n);
+      d.classList.toggle('done', i < n);
       d.textContent = i < n ? '✓' : i + 1;
     });
     lines.forEach((l, i) => l.classList.toggle('done', i < n));
@@ -202,7 +202,7 @@ function createDoughnutChart(canvasId, labels, data) {
     type: 'doughnut',
     data: {
       labels,
-      datasets: [{ data, backgroundColor: ['#D4A843','#2DD4BF','#8B5CF6','#EF4444'], borderWidth: 0 }]
+      datasets: [{ data, backgroundColor: ['#D4A843', '#2DD4BF', '#8B5CF6', '#EF4444'], borderWidth: 0 }]
     },
     options: {
       responsive: true,
@@ -212,8 +212,22 @@ function createDoughnutChart(canvasId, labels, data) {
   });
 }
 
+// ── Theme Toggle (Light/Dark Mode) ────────────────────────
+function initTheme() {
+  const savedTheme = localStorage.getItem('tijwaal_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('tijwaal_theme', next);
+}
+
 // ── On DOM Ready ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   initSidebar();
   initModals();
   initOTP();

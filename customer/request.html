@@ -108,6 +108,7 @@
             }
         }
     </style>
+    <script src="../js/i18n.js"></script>
 </head>
 
 <body style="background:var(--bg-deep);">
@@ -118,7 +119,7 @@
                 style="position:absolute; top:1rem; left:1rem; z-index:10; background:rgba(7,12,24,0.85); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:var(--radius-md); padding:0.6rem 1rem; color:var(--text-secondary); font-size:0.82rem;">
                 📍 Click on map to set service location
             </div>
-            <iframe
+            <iframe id="map-iframe"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=46.5,24.6,46.9,24.8&layer=mapnik&marker=24.7136,46.6753"
                 title="Service location map" style="filter:brightness(0.8) contrast(1.1) saturate(0.7);">
             </iframe>
@@ -128,31 +129,43 @@
         <div class="request-panel">
             <div class="req-header">
                 <a href="login.html" style="color:var(--text-muted); font-size:1.2rem; text-decoration:none;">←</a>
-                <div>
-                    <div style="font-weight:700;">Request a Service</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted); font-family:Cairo,sans-serif;">طلب خدمة
-                    </div>
+                <div style="flex:1;">
+                    <div style="font-weight:700;" data-i18n="req_title">Request a Service</div>
                 </div>
-                <div class="avatar" style="margin-left:auto;">A</div>
+
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-right:1rem;">
+                    <button class="lang-btn" data-lang="en" onclick="updateLanguage('en')"
+                        style="background:none;border:none;color:var(--text-secondary);font-weight:bold;cursor:pointer;">EN</button>
+                    <span style="color:var(--border);">|</span>
+                    <button class="lang-btn" data-lang="ar" onclick="updateLanguage('ar')"
+                        style="background:none;border:none;color:var(--text-secondary);cursor:pointer;opacity:0.7;">عربي</button>
+                    <button class="icon-btn" onclick="toggleTheme()" style="margin-left:0.5rem;"
+                        title="Toggle Theme">🌓</button>
+                </div>
+
+                <div class="avatar" style="margin-left:0;">A</div>
             </div>
 
             <div class="req-body">
                 <!-- Location -->
                 <div>
-                    <div style="font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-secondary);">
+                    <div style="font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-secondary);"
+                        data-i18n="req_loc_label">
                         📍 SERVICE LOCATION</div>
                     <div class="location-input"
                         onclick="showToast('Location selected: Riyadh, Al Olaya District','success')">
                         <span style="color:var(--gold);">📍</span>
-                        <span style="font-size:0.85rem; flex:1; color:var(--text-primary);">Riyadh — Al Olaya
+                        <span style="font-size:0.85rem; flex:1; color:var(--text-primary);" id="location-text">Riyadh —
+                            Al Olaya
                             District</span>
-                        <span style="color:var(--text-muted); font-size:0.75rem;">Change</span>
+                        <span style="color:var(--text-muted); font-size:0.75rem;" data-i18n="req_change">Change</span>
                     </div>
                 </div>
 
                 <!-- Category -->
                 <div>
-                    <div style="font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-secondary);">
+                    <div style="font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-secondary);"
+                        data-i18n="req_cat_label">
                         🗂️ SERVICE CATEGORY</div>
                     <div class="cat-pills">
                         <div class="cat-pill selected" onclick="selectCat(this)">⚡ Electrician</div>
@@ -168,52 +181,58 @@
 
                 <!-- Description -->
                 <div class="form-group">
-                    <label>Describe what you need</label>
-                    <textarea class="form-control" rows="4" id="descriptionInput"
+                    <label data-i18n="req_desc_label">Describe what you need</label>
+                    <textarea class="form-control" rows="4" id="descriptionInput" data-i18n="req_desc_ph"
                         placeholder="e.g. My living room light switch stopped working and I need it replaced…"></textarea>
                 </div>
 
                 <!-- Photos -->
                 <div class="form-group">
-                    <label>Attach Photos (optional)</label>
+                    <label data-i18n="req_photo_label">Attach Photos (optional)</label>
                     <div style="border:2px dashed var(--border); border-radius:var(--radius-md); padding:1.5rem; text-align:center; cursor:pointer; transition:all var(--transition);"
                         onmouseenter="this.style.borderColor='var(--gold)'"
                         onmouseleave="this.style.borderColor='var(--border)'"
                         onclick="showToast('Photo upload opened','info')">
                         <div style="font-size:2rem;">📷</div>
-                        <div style="font-size:0.82rem; color:var(--text-muted); margin-top:0.4rem;">Click to upload or
+                        <div style="font-size:0.82rem; color:var(--text-muted); margin-top:0.4rem;"
+                            data-i18n="req_photo_text">Click to upload or
                             drag & drop</div>
                     </div>
                 </div>
 
                 <!-- Preferred time -->
                 <div class="form-group">
-                    <label>Preferred Time</label>
+                    <label data-i18n="req_time_label">Preferred Time</label>
                     <select class="form-control" id="timeSelect">
-                        <option>As soon as possible</option>
-                        <option>Within 2 hours</option>
-                        <option>Today afternoon</option>
-                        <option>Tomorrow morning</option>
-                        <option>Schedule custom time</option>
+                        <option data-i18n="req_time_opt1">As soon as possible</option>
+                        <option data-i18n="req_time_opt2">Within 2 hours</option>
+                        <option data-i18n="req_time_opt3">Today afternoon</option>
+                        <option data-i18n="req_time_opt4">Tomorrow morning</option>
+                        <option data-i18n="req_time_opt5">Schedule custom time</option>
                     </select>
                 </div>
 
                 <!-- Budget -->
                 <div class="form-group">
-                    <label>Budget Range (SAR) — Optional</label>
+                    <label data-i18n="req_budget_label">Budget Range (SAR) — Optional</label>
                     <div style="display:flex; gap:0.5rem;">
-                        <input class="form-control" type="number" placeholder="Min" style="width:50%;" id="budgetMin" />
-                        <input class="form-control" type="number" placeholder="Max" style="width:50%;" id="budgetMax" />
+                        <input class="form-control" type="number" data-i18n="req_budget_ph1" placeholder="Min"
+                            style="width:50%;" id="budgetMin" />
+                        <input class="form-control" type="number" data-i18n="req_budget_ph2" placeholder="Max"
+                            style="width:50%;" id="budgetMax" />
                     </div>
-                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;">Providers outside this
+                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;"
+                        data-i18n="req_budget_hint">Providers outside this
                         range may still bid. You're not obligated to accept.</div>
                 </div>
             </div>
 
             <div class="req-footer">
-                <button class="btn btn-primary btn-block btn-lg" onclick="submitRequest()">🚀 Post Service
+                <button class="btn btn-primary btn-block btn-lg" onclick="submitRequest()" data-i18n="req_btn_post">🚀
+                    Post Service
                     Request</button>
-                <p style="font-size:0.75rem; text-align:center; margin-top:0.75rem;">Providers within 20km will be
+                <p style="font-size:0.75rem; text-align:center; margin-top:0.75rem;" data-i18n="req_footer_hint">
+                    Providers within 20km will be
                     notified immediately.</p>
             </div>
         </div>
@@ -234,6 +253,34 @@
             // Set avatar initial
             const av = document.querySelector('.avatar');
             if (av && user.name) av.textContent = user.name.charAt(0).toUpperCase();
+        }
+
+        // --- GEOLOCATION LOGIC ---
+        let currentLat = 24.7136;
+        let currentLng = 46.6753;
+        function updateMap() {
+            const offset = 0.05;
+            const bbox = `${currentLng - offset},${currentLat - offset},${currentLng + offset},${currentLat + offset}`;
+            const frame = document.getElementById('map-iframe');
+            if (frame) {
+                frame.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${currentLat},${currentLng}`;
+            }
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    currentLat = position.coords.latitude;
+                    currentLng = position.coords.longitude;
+                    updateMap();
+                    const locText = document.getElementById('location-text');
+                    if (locText) locText.textContent = "Current Location (GPS)";
+                },
+                (error) => {
+                    console.warn("Geolocation error:", error);
+                },
+                { enableHighAccuracy: true }
+            );
         }
 
         function selectCat(el) {
