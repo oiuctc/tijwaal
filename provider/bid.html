@@ -179,25 +179,54 @@
         }
 
         // Real-time listener for open requests
-        FirestoreService.onOpenRequests((requests) => {
+        FirestoreService.onOpenRequests(async (requests) => {
             const container = document.getElementById('jobsList');
             const empty = document.getElementById('emptyState');
 
-            if (requests.length === 0) {
+            // --- Geolocation check ---
+            let providerLat = null;
+            let providerLng = null;
+
+            // Get Provider Location (Simulation or Real)
+            try {
+                const pos = await new Promise((res, rej) => {
+                    if (!navigator.geolocation) return rej('No geolocation');
+                    navigator.geolocation.getCurrentPosition(res, rej);
+                });
+                providerLat = pos.coords.latitude;
+                providerLng = pos.coords.longitude;
+            } catch (err) {
+                console.warn('Could not get provider location, using fallback (Riyadh center)', err);
+                providerLat = 24.7136;
+                providerLng = 46.6753;
+            }
+
+            // Filter requests within 10 km
+            const filteredRequests = requests.filter(req => {
+                if (!req.lat || !req.lng) return true; // Show legacy ones without coords
+                const distance = getDistance(providerLat, providerLng, req.lat, req.lng);
+                return distance <= 10; // Within 10 km
+            });
+
+            if (filteredRequests.length === 0) {
                 if (empty) empty.style.display = 'block';
-                document.getElementById('jobCount').textContent = '0 open';
+                document.getElementById('jobCount').textContent = '0 open (within 10km)';
+                if (container) container.innerHTML = '';
+                container.appendChild(empty);
                 return;
             }
 
             if (empty) empty.style.display = 'none';
-            document.getElementById('jobCount').textContent = requests.length + ' open';
+            document.getElementById('jobCount').textContent = filteredRequests.length + ' open (10km)';
 
             container.innerHTML = '';
-            requests.forEach(req => {
+            filteredRequests.forEach(req => {
                 const icon = getCategoryIcon(req.category);
                 const budget = req.budgetMin && req.budgetMax
                     ? `~SAR ${req.budgetMin}–${req.budgetMax}`
                     : (req.budgetMax ? `~SAR ${req.budgetMax}` : 'Open budget');
+
+                const distKm = (req.lat && req.lng) ? getDistance(providerLat, providerLng, req.lat, req.lng).toFixed(1) : '?';
 
                 const card = document.createElement('div');
                 card.className = 'job-card';
@@ -218,7 +247,7 @@
                             <p style="font-size:0.82rem;color:var(--text-secondary);margin:0.5rem 0;">"${req.description || 'No description provided.'}"</p>
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem;">
                                 <div style="font-size:0.78rem; color:var(--text-muted);">
-                                    📍 ${req.location || '—'}
+                                    📍 ${req.location || '—'} <span style="color:var(--gold); margin-left:0.5rem;">(~${distKm} km away)</span>
                                 </div>
                                 <button class="btn btn-primary btn-sm" onclick="openBidModal('${req.id}', '${(req.category || 'Service').replace(/'/g, "\\'")}')">Place Bid →</button>
                             </div>
