@@ -55,15 +55,6 @@
             color: var(--text-secondary);
         }
 
-        .best-badge {
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            color: #07080D;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.2rem 0.6rem;
-            border-radius: 100px;
-        }
-
         .navbar {
             display: flex;
             align-items: center;
@@ -71,6 +62,40 @@
             padding: 0 0 1.25rem;
             border-bottom: 1px solid var(--border);
             margin-bottom: 1.25rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
         }
     </style>
 </head>
@@ -80,137 +105,27 @@
         <a href="request.html" style="color:var(--text-muted); font-size:1.2rem; text-decoration:none;">←</a>
         <div>
             <div style="font-weight:700;">Compare Bids</div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">Electrician · Al Olaya, Riyadh</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);" id="requestInfo">Loading request…</div>
         </div>
         <div style="margin-left:auto; display:flex; align-items:center; gap:0.75rem;">
-            <span class="badge badge-gold">⏳ 47 min left</span>
-            <div class="avatar">A</div>
+            <span class="badge badge-gold" id="bidCount">0 bids</span>
+            <div class="avatar" id="userAvatar">?</div>
         </div>
     </div>
 
     <div style="margin-bottom:1.25rem;">
-        <div style="font-size:0.82rem; color:var(--text-muted);">4 providers have submitted bids for your request.</div>
-    </div>
-
-    <!-- Sort + Filter -->
-    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
-        <span style="font-size:0.8rem; color:var(--text-muted); align-self:center;">Sort by:</span>
-        <button class="btn btn-primary btn-sm" onclick="sortBids(this, 'price')">💰 Lowest Price</button>
-        <button class="btn btn-ghost btn-sm" onclick="sortBids(this, 'rating')">⭐ Highest Rating</button>
-        <button class="btn btn-ghost btn-sm" onclick="sortBids(this, 'eta')">⏱ Fastest ETA</button>
+        <div style="font-size:0.82rem; color:var(--text-muted);" id="bidSummary">
+            <span class="pulse-dot"></span> Listening for bids in real-time…
+        </div>
     </div>
 
     <div id="bidsContainer" style="display:flex;flex-direction:column;gap:1rem;">
-
-        <!-- Bid 1 - Best Value -->
-        <div class="card card--gold" id="bid1">
-            <div class="bid-card">
-                <div class="avatar-lg">R</div>
-                <div style="flex:1;">
-                    <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.25rem;">
-                        <div style="font-weight:700;">Rami Al-Joudi</div>
-                        <span class="best-badge">⭐ Best Value</span>
-                        <span class="badge badge-success" style="font-size:0.68rem;">Verified</span>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">4.9 · 201 jobs completed · 8 years
-                        experience</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
-                        <span class="feature-chip">⚡ Licensed Electrician</span>
-                        <span class="feature-chip">🚗 Own transport</span>
-                        <span class="feature-chip">🛡 Insured</span>
-                    </div>
-                    <p style="font-size:0.82rem; margin-top:0.75rem;">"I can fix your light switch in about 30 minutes
-                        using quality Schneider components. Available now."</p>
-                </div>
-                <div style="text-align:right; flex-shrink:0;">
-                    <div class="bid-price">SAR 180</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 25 min</div>
-                    <button class="btn btn-primary btn-sm mt-2" onclick="acceptBid('Rami Al-Joudi', 180)">Accept
-                        Bid</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bid 2 -->
-        <div class="card" id="bid2">
-            <div class="bid-card">
-                <div class="avatar-lg" style="background:var(--teal-dim);border-color:var(--teal);color:var(--teal);">H
-                </div>
-                <div style="flex:1;">
-                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
-                        <div style="font-weight:700;">Hassan Qureshi</div>
-                        <span class="badge badge-success" style="font-size:0.68rem;">Verified</span>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">4.8 · 142 jobs completed · 5 years</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
-                        <span class="feature-chip">⚡ Licensed Electrician</span>
-                        <span class="feature-chip">📋 Certified</span>
-                    </div>
-                    <p style="font-size:0.82rem; margin-top:0.75rem;">"Professional switch replacement with warranty on
-                        parts for 6 months."</p>
-                </div>
-                <div style="text-align:right; flex-shrink:0;">
-                    <div class="bid-price">SAR 220</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 40 min</div>
-                    <button class="btn btn-secondary btn-sm mt-2" onclick="acceptBid('Hassan Qureshi', 220)">Accept
-                        Bid</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bid 3 -->
-        <div class="card" id="bid3">
-            <div class="bid-card">
-                <div class="avatar-lg" style="background:rgba(139,92,246,0.15);border-color:#8B5CF6;color:#8B5CF6;">F
-                </div>
-                <div style="flex:1;">
-                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
-                        <div style="font-weight:700;">Faisal Al-Hamdan</div>
-                        <span class="badge badge-success" style="font-size:0.68rem;">Verified</span>
-                    </div>
-                    <div class="stars">★★★★☆</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">4.5 · 67 jobs completed · 3 years</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
-                        <span class="feature-chip">⚡ Electrician</span>
-                    </div>
-                    <p style="font-size:0.82rem; margin-top:0.75rem;">"Quick and clean job guaranteed. I can be there
-                        within an hour."</p>
-                </div>
-                <div style="text-align:right; flex-shrink:0;">
-                    <div class="bid-price">SAR 150</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 50 min</div>
-                    <button class="btn btn-secondary btn-sm mt-2" onclick="acceptBid('Faisal Al-Hamdan', 150)">Accept
-                        Bid</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bid 4 -->
-        <div class="card" id="bid4">
-            <div class="bid-card">
-                <div class="avatar-lg"
-                    style="background:var(--success-dim);border-color:var(--success);color:var(--success);">K</div>
-                <div style="flex:1;">
-                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
-                        <div style="font-weight:700;">Khalid Al-Mutiri</div>
-                        <span class="badge badge-warning" style="font-size:0.68rem;">New</span>
-                    </div>
-                    <div class="stars">★★★★☆</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">4.2 · 12 jobs · 1 year</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.6rem;">
-                        <span class="feature-chip">⚡ Electrician</span>
-                    </div>
-                    <p style="font-size:0.82rem; margin-top:0.75rem;">"Competitive price, getting established. I
-                        guarantee my work."</p>
-                </div>
-                <div style="text-align:right; flex-shrink:0;">
-                    <div class="bid-price">SAR 120</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">ETA: 35 min</div>
-                    <button class="btn btn-secondary btn-sm mt-2" onclick="acceptBid('Khalid Al-Mutiri', 120)">Accept
-                        Bid</button>
-                </div>
+        <div class="empty-state" id="emptyState">
+            <div class="icon">⏳</div>
+            <div style="font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">Waiting for providers to bid</div>
+            <div>Your request has been posted. Providers nearby will see it and submit their bids.</div>
+            <div style="margin-top:1rem; font-size:0.82rem; color:var(--gold);">
+                <span class="pulse-dot"></span> Live updates — bids will appear automatically
             </div>
         </div>
     </div>
@@ -231,29 +146,139 @@
                 <div style="font-size:0.78rem; color:var(--text-muted);">+15% VAT = <span id="acceptTotal"></span></div>
             </div>
             <div style="display:flex; gap:0.75rem;">
-                <button class="btn btn-primary btn-block" onclick="confirmAccept()">✓ Confirm & Pay</button>
+                <button class="btn btn-primary btn-block" id="confirmAcceptBtn" onclick="confirmAccept()">✓ Confirm &
+                    Pay</button>
                 <button class="btn btn-ghost btn-block modal-close">Cancel</button>
             </div>
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firestore-service.js"></script>
     <script src="../js/main.js"></script>
     <script>
-        function acceptBid(name, price) {
+        // ── Session & Request ID ──────────────────────────
+        const user = getSession();
+        if (!user) { window.location.href = 'login.html'; }
+        else {
+            const av = document.getElementById('userAvatar');
+            if (av && user.name) av.textContent = user.name.charAt(0).toUpperCase();
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const requestId = params.get('requestId');
+        let selectedBid = null;
+
+        if (!requestId) {
+            document.getElementById('requestInfo').textContent = 'No request ID found';
+            document.getElementById('bidSummary').textContent = 'Please submit a service request first.';
+        } else {
+            loadRequest();
+            startListeningForBids();
+        }
+
+        // ── Load request details ──────────────────────────
+        async function loadRequest() {
+            const req = await FirestoreService.getRequest(requestId);
+            if (req) {
+                document.getElementById('requestInfo').textContent =
+                    `${req.category} · ${req.location}`;
+            }
+        }
+
+        // ── Real-time bid listener ────────────────────────
+        function startListeningForBids() {
+            FirestoreService.onBidsForRequest(requestId, (bids) => {
+                const container = document.getElementById('bidsContainer');
+                const empty = document.getElementById('emptyState');
+
+                if (bids.length === 0) {
+                    if (empty) empty.style.display = 'block';
+                    document.getElementById('bidCount').textContent = '0 bids';
+                    document.getElementById('bidSummary').innerHTML =
+                        '<span class="pulse-dot"></span> Listening for bids in real-time…';
+                    return;
+                }
+
+                // Hide empty state
+                if (empty) empty.style.display = 'none';
+                document.getElementById('bidCount').textContent = bids.length + ' bids';
+                document.getElementById('bidSummary').textContent =
+                    `${bids.length} provider(s) have submitted bids for your request.`;
+
+                // Render bid cards
+                container.innerHTML = '';
+                const colors = [
+                    { bg: 'var(--gold-dim)', border: 'var(--border-gold)', color: 'var(--gold)' },
+                    { bg: 'var(--teal-dim)', border: 'var(--teal)', color: 'var(--teal)' },
+                    { bg: 'rgba(139,92,246,0.15)', border: '#8B5CF6', color: '#8B5CF6' },
+                    { bg: 'var(--success-dim)', border: 'var(--success)', color: 'var(--success)' },
+                ];
+
+                bids.forEach((bid, i) => {
+                    const c = colors[i % colors.length];
+                    const initial = (bid.providerName || 'P').charAt(0).toUpperCase();
+                    const isFirst = i === 0;
+
+                    const card = document.createElement('div');
+                    card.className = isFirst ? 'card card--gold' : 'card';
+                    card.innerHTML = `
+                        <div class="bid-card">
+                            <div class="avatar-lg" style="background:${c.bg};border-color:${c.border};color:${c.color};">${initial}</div>
+                            <div style="flex:1;">
+                                <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.25rem;">
+                                    <div style="font-weight:700;">${bid.providerName || 'Provider'}</div>
+                                    ${isFirst ? '<span style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#07080D;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:100px;">⭐ Lowest Price</span>' : ''}
+                                </div>
+                                <div style="font-size:0.75rem; color:var(--text-muted);">${bid.eta || 'ETA not specified'}</div>
+                                <p style="font-size:0.82rem; margin-top:0.75rem;">"${bid.note || 'No additional notes.'}"</p>
+                            </div>
+                            <div style="text-align:right; flex-shrink:0;">
+                                <div class="bid-price">SAR ${bid.amount}</div>
+                                <div style="font-size:0.75rem; color:var(--text-muted);">ETA: ${bid.eta || '—'}</div>
+                                <button class="btn ${isFirst ? 'btn-primary' : 'btn-secondary'} btn-sm mt-2"
+                                    onclick="acceptBid('${bid.id}', '${bid.providerName || 'Provider'}', ${bid.amount}, '${bid.providerId}')">Accept Bid</button>
+                            </div>
+                        </div>`;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // ── Accept bid ────────────────────────────────────
+        function acceptBid(bidId, name, price, providerId) {
+            selectedBid = { bidId, name, price, providerId };
             document.getElementById('acceptName').textContent = name;
             document.getElementById('acceptPrice').textContent = `SAR ${price}`;
             document.getElementById('acceptTotal').textContent = `SAR ${(price * 1.15).toFixed(0)}`;
             openModal('acceptModal');
         }
-        function confirmAccept() {
-            closeModal('acceptModal');
-            showToast('Bid accepted! Provider is on the way…', 'success');
-            setTimeout(() => window.location.href = 'tracking.html', 1200);
-        }
-        function sortBids(btn, by) {
-            document.querySelectorAll('[onclick^="sortBids"]').forEach(b => b.className = 'btn btn-ghost btn-sm');
-            btn.className = 'btn btn-primary btn-sm';
-            showToast(`Sorted by ${by}`, 'info');
+
+        async function confirmAccept() {
+            if (!selectedBid) return;
+            const btn = document.getElementById('confirmAcceptBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> Processing…';
+
+            try {
+                await FirestoreService.acceptBid(requestId, selectedBid.bidId, {
+                    providerId: selectedBid.providerId,
+                    providerName: selectedBid.name,
+                    amount: selectedBid.price
+                });
+                closeModal('acceptModal');
+                showToast('✅ Bid accepted! Provider is on the way…', 'success');
+                setTimeout(() => window.location.href = 'tracking.html', 1200);
+            } catch (err) {
+                console.error(err);
+                showToast('Error accepting bid: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.innerHTML = '✓ Confirm & Pay';
+            }
         }
     </script>
 </body>

@@ -285,7 +285,9 @@
     <!-- ── Firebase SDKs (compat – no bundler required) ── -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
+    <script src="../js/firestore-service.js"></script>
     <script src="../js/main.js"></script>
     <script>
         // ──────────────────────────────────────────────
@@ -307,6 +309,15 @@
                 const provider = new firebase.auth.GoogleAuthProvider();
                 const result = await firebaseAuth.signInWithPopup(provider);
                 const user = result.user;
+                // Save user profile to Firestore
+                await FirestoreService.saveUserProfile(user.uid, {
+                    name: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL || '',
+                    role: 'customer',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                saveSession({ uid: user.uid, name: user.displayName, email: user.email, role: 'customer' });
                 showToast('✅ Welcome, ' + user.displayName + '! Redirecting…', 'success');
                 setTimeout(() => window.location.href = 'request.html', 1200);
             } catch (err) {
@@ -383,6 +394,16 @@
 
             if (code === emailDemoCode) {
                 clearInterval(countdownTimer);
+                // Save demo user session
+                const email = document.getElementById('sentTo').textContent;
+                const demoUid = 'demo_' + email.replace(/[^a-zA-Z0-9]/g, '_');
+                await FirestoreService.saveUserProfile(demoUid, {
+                    name: email.split('@')[0],
+                    email: email,
+                    role: 'customer',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                saveSession({ uid: demoUid, name: email.split('@')[0], email: email, role: 'customer' });
                 showToast('✅ Verified! Redirecting…', 'success');
                 setTimeout(() => window.location.href = 'request.html', 1200);
             } else {

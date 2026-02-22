@@ -15,6 +15,8 @@ const firebaseConfig = {
 // Initialize Firebase (compat SDK – works in plain HTML without a bundler)
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
 
-// Expose globally so all pages can import this file and use `auth`
+// Expose globally so all pages can import this file and use `auth` and `db`
 window.firebaseAuth = auth;
+window.firebaseDB = db;

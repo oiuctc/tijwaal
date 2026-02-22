@@ -110,52 +110,29 @@
         </div>
         <div
             style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); margin-bottom:1.75rem;">
-            <span>Phone OTP</span><span>Profile Info</span><span>Documents</span>
+            <span>Sign In</span><span>Profile Info</span><span>Documents</span>
         </div>
 
-        <!-- Step 1: Phone entry -->
+        <!-- Step 1: Google Sign-In -->
         <div class="wizard-step" id="step1">
             <div class="card">
-                <h3 style="margin-bottom:0.5rem;">Verify your phone</h3>
-                <p style="font-size:0.82rem; margin-bottom:1.25rem;">Enter your Saudi mobile number. A real SMS will be
-                    sent.</p>
-                <div class="form-group" style="margin-bottom:1rem;">
-                    <label>Mobile Number</label>
-                    <div style="display:flex;">
-                        <div
-                            style="display:flex;align-items:center;gap:0.5rem;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm) 0 0 var(--radius-sm);padding:0.7rem 0.75rem;font-size:0.85rem;white-space:nowrap;">
-                            🇸🇦 +966</div>
-                        <input class="form-control" type="tel" placeholder="5X XXX XXXX"
-                            style="border-radius:0 var(--radius-sm) var(--radius-sm) 0;border-left:none;"
-                            id="provPhone" />
-                    </div>
-                </div>
-                <div id="prov-recaptcha">
-                    <div id="prov-anchor"></div>
-                </div>
-                <button class="btn btn-primary btn-block" id="provSendBtn" onclick="step1Next()">Send Verification Code
-                    →</button>
-            </div>
-        </div>
-
-        <!-- Step 1b: OTP entry (6 digits – Firebase) -->
-        <div class="wizard-step" id="step1b">
-            <div class="card">
-                <h3 style="margin-bottom:0.5rem;">Enter SMS Code</h3>
-                <p style="font-size:0.82rem; margin-bottom:0.5rem;">6-digit code sent to <span id="provSentTo"
-                        style="color:var(--gold);font-weight:600;"></span></p>
-                <div class="otp-row">
-                    <input class="otp-input" maxlength="1" id="po1" />
-                    <input class="otp-input" maxlength="1" id="po2" />
-                    <input class="otp-input" maxlength="1" id="po3" />
-                    <input class="otp-input" maxlength="1" id="po4" />
-                    <input class="otp-input" maxlength="1" id="po5" />
-                    <input class="otp-input" maxlength="1" id="po6" />
-                </div>
-                <button class="btn btn-primary btn-block mt-1" id="provVerifyBtn" onclick="otpVerified()">Verify
-                    →</button>
-                <button class="btn btn-ghost btn-block" style="font-size:0.8rem;margin-top:0.5rem;"
-                    onclick="showStep('step1')">← Change number</button>
+                <h3 style="margin-bottom:0.5rem;">Sign in to get started</h3>
+                <p style="font-size:0.82rem; margin-bottom:1.25rem;">Use your Google account to register as a provider.
+                </p>
+                <button class="btn-google" id="provGoogleBtn" onclick="providerGoogleSignIn()"
+                    style="display:flex;align-items:center;justify-content:center;gap:0.75rem;width:100%;padding:0.8rem 1rem;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;cursor:pointer;">
+                    <svg viewBox="0 0 48 48" width="20" height="20">
+                        <path fill="#EA4335"
+                            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                        <path fill="#4285F4"
+                            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                        <path fill="#FBBC05"
+                            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                        <path fill="#34A853"
+                            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                    </svg>
+                    Sign in with Google
+                </button>
             </div>
         </div>
 
@@ -165,16 +142,16 @@
                 <h3 style="margin-bottom:1.25rem;">Profile Information</h3>
                 <div style="display:flex;flex-direction:column;gap:1rem;">
                     <div class="grid-2">
-                        <div class="form-group"><label>First Name</label><input class="form-control"
-                                placeholder="Ahmed" /></div>
+                        <div class="form-group"><label>First Name</label><input class="form-control" placeholder="Ahmed"
+                                id="provFirstName" /></div>
                         <div class="form-group"><label>Last Name</label><input class="form-control"
-                                placeholder="Al-Rashid" /></div>
+                                placeholder="Al-Rashid" id="provLastName" /></div>
                     </div>
                     <div class="form-group"><label>Email Address</label><input class="form-control" type="email"
-                            placeholder="ahmed@email.com" /></div>
+                            placeholder="ahmed@email.com" id="provEmail" /></div>
                     <div class="form-group">
                         <label>Service Category</label>
-                        <select class="form-control">
+                        <select class="form-control" id="provCategory">
                             <option>⚡ Electrician</option>
                             <option>🔧 Plumber</option>
                             <option>🪑 Carpenter</option>
@@ -187,7 +164,7 @@
                     </div>
                     <div class="form-group">
                         <label>Years of Experience</label>
-                        <select class="form-control">
+                        <select class="form-control" id="provExperience">
                             <option>Less than 1 year</option>
                             <option>1–3 years</option>
                             <option>3–5 years</option>
@@ -197,7 +174,7 @@
                     </div>
                     <div class="form-group">
                         <label>City of Service</label>
-                        <select class="form-control">
+                        <select class="form-control" id="provCity">
                             <option>Riyadh</option>
                             <option>Jeddah</option>
                             <option>Dammam</option>
@@ -207,7 +184,7 @@
                         </select>
                     </div>
                     <div class="form-group"><label>Short Bio</label><textarea class="form-control" rows="3"
-                            placeholder="Describe your expertise and services…"></textarea></div>
+                            placeholder="Describe your expertise and services…" id="provBio"></textarea></div>
                     <button class="btn btn-primary btn-block" onclick="goStep3()">Next: Upload Documents →</button>
                 </div>
             </div>
@@ -280,15 +257,16 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
+    <script src="../js/firestore-service.js"></script>
     <script src="../js/main.js"></script>
     <script>
-        let provConfirmation = null;
-        let provRecaptcha;
+        let providerUser = null;
 
         // ── Show/hide wizard steps ──
         function showStep(id) {
-            ['step1', 'step1b', 'step2', 'step3', 'stepSuccess'].forEach(s => {
+            ['step1', 'step2', 'step3', 'stepSuccess'].forEach(s => {
                 const el = document.getElementById(s);
                 if (el) el.style.display = s === id ? 'block' : 'none';
             });
@@ -304,72 +282,64 @@
             }
         }
 
-        // ──────────────────────────────────────────────
-        // Initialise / Reset reCAPTCHA Logic
-        // ──────────────────────────────────────────────
-        function resetProvRecaptcha() {
-            if (provRecaptcha) {
-                try { provRecaptcha.clear(); } catch (e) { }
-            }
-            document.getElementById('prov-recaptcha').innerHTML = '<div id="prov-anchor"></div>';
-            provRecaptcha = new firebase.auth.RecaptchaVerifier('prov-anchor', { size: 'invisible' });
-            return provRecaptcha.render();
-        }
-
         window.addEventListener('load', () => {
-            resetProvRecaptcha();
             showStep('step1');
         });
 
-        // ── Step 1: Send real SMS ──
-        async function step1Next() {
-            const raw = document.getElementById('provPhone').value.trim();
-            if (raw.length < 9) { showToast('Enter a valid number', 'warning'); return; }
-            const btn = document.getElementById('provSendBtn');
+        // ── Step 1: Google Sign-In ──
+        async function providerGoogleSignIn() {
+            const btn = document.getElementById('provGoogleBtn');
             btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span> Sending…';
+            btn.innerHTML = '<span class="loading-spinner"></span> Signing in…';
             try {
-                provConfirmation = await firebaseAuth.signInWithPhoneNumber('+966' + raw.replace(/\s/g, ''), provRecaptcha);
-                document.getElementById('provSentTo').textContent = '+966 ' + raw;
-                showStep('step1b');
-                document.getElementById('po1').focus();
-                showToast('SMS sent! Check your phone.', 'success');
+                const provider = new firebase.auth.GoogleAuthProvider();
+                const result = await firebaseAuth.signInWithPopup(provider);
+                providerUser = result.user;
+                // Pre-fill email
+                document.getElementById('provEmail').value = providerUser.email || '';
+                const nameParts = (providerUser.displayName || '').split(' ');
+                document.getElementById('provFirstName').value = nameParts[0] || '';
+                document.getElementById('provLastName').value = nameParts.slice(1).join(' ') || '';
+                showToast('✅ Signed in as ' + providerUser.displayName, 'success');
+                updateDots(2);
+                showStep('step2');
             } catch (err) {
-                showToast('Error: ' + (err.message || 'Could not send SMS'), 'error');
-                resetProvRecaptcha().then(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = 'Send Verification Code →';
-                });
-            }
-        }
-
-        // ── Step 1b: Verify SMS code ──
-        async function otpVerified() {
-            const code = ['po1', 'po2', 'po3', 'po4', 'po5', 'po6'].map(id => document.getElementById(id).value).join('');
-            if (code.length < 6) { showToast('Enter the full 6-digit code', 'warning'); return; }
-            const btn = document.getElementById('provVerifyBtn');
-            btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span> Verifying…';
-            try {
-                await provConfirmation.confirm(code);
-                showToast('✅ Phone verified!', 'success');
-                updateDots(2); showStep('step2');
-            } catch (err) {
-                showToast('Wrong code. Try again.', 'error');
-                btn.disabled = false; btn.innerHTML = 'Verify →';
+                console.error(err);
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    showToast('Error: ' + (err.message || 'Sign-in failed'), 'error');
+                }
+                btn.disabled = false;
+                btn.innerHTML = 'Sign in with Google';
             }
         }
 
         function goStep3() { updateDots(3); showStep('step3'); }
-        function submitRegistration() { showStep('stepSuccess'); }
 
-        // OTP auto-advance
-        ['po1', 'po2', 'po3', 'po4', 'po5', 'po6'].forEach((id, i, ids) => {
-            const inp = document.getElementById(id);
-            if (inp) {
-                inp.addEventListener('input', () => { if (inp.value && i < ids.length - 1) document.getElementById(ids[i + 1]).focus(); });
-                inp.addEventListener('keydown', e => { if (e.key === 'Backspace' && !inp.value && i > 0) document.getElementById(ids[i - 1]).focus(); });
+        async function submitRegistration() {
+            const firstName = document.getElementById('provFirstName').value.trim();
+            const lastName = document.getElementById('provLastName').value.trim();
+            const fullName = firstName + ' ' + lastName;
+            const uid = providerUser ? providerUser.uid : 'demo_provider_' + Date.now();
+
+            try {
+                await FirestoreService.saveUserProfile(uid, {
+                    name: fullName,
+                    email: document.getElementById('provEmail').value.trim(),
+                    category: document.getElementById('provCategory').value,
+                    experience: document.getElementById('provExperience').value,
+                    city: document.getElementById('provCity').value,
+                    bio: document.getElementById('provBio').value.trim(),
+                    role: 'provider',
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                saveSession({ uid: uid, name: fullName, email: document.getElementById('provEmail').value.trim(), role: 'provider' });
+                showStep('stepSuccess');
+            } catch (err) {
+                console.error(err);
+                showToast('Error saving profile: ' + err.message, 'error');
             }
-        });
+        }
     </script>
 </body>
 

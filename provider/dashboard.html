@@ -93,17 +93,21 @@
                             <div
                                 style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
                                 <span style="color:var(--text-muted);">Completion Rate</span><span
-                                    style="color:var(--success);font-weight:700;">97%</span></div>
+                                    style="color:var(--success);font-weight:700;">97%</span>
+                            </div>
                             <div
                                 style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
-                                <span style="color:var(--text-muted);">Response Time</span><span>~8 min avg</span></div>
+                                <span style="color:var(--text-muted);">Response Time</span><span>~8 min avg</span>
+                            </div>
                             <div
                                 style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
-                                <span style="color:var(--text-muted);">Total Reviews</span><span>187</span></div>
+                                <span style="color:var(--text-muted);">Total Reviews</span><span>187</span>
+                            </div>
                             <div
                                 style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:0.4rem;">
                                 <span style="color:var(--text-muted);">5-Star Reviews</span><span
-                                    style="color:var(--gold);">168</span></div>
+                                    style="color:var(--gold);">168</span>
+                            </div>
                             <div style="display:flex;justify-content:space-between;"><span
                                     style="color:var(--text-muted);">Member Since</span><span>Mar 2024</span></div>
                         </div>
@@ -121,7 +125,7 @@
                 <!-- Active Jobs -->
                 <h3 style="margin-bottom:1rem;">🔨 Active Jobs</h3>
                 <div class="table-wrap mb-3">
-                    <table>
+                    <table id="activeJobsTable">
                         <thead>
                             <tr>
                                 <th>Job ID</th>
@@ -152,45 +156,20 @@
                 <!-- Active Bids -->
                 <h3 style="margin-bottom:1rem;">💼 My Active Bids</h3>
                 <div class="table-wrap">
-                    <table>
+                    <table id="activeBidsTable">
                         <thead>
                             <tr>
-                                <th>Job ID</th>
+                                <th>Request ID</th>
                                 <th>Service</th>
                                 <th>Area</th>
                                 <th>My Bid</th>
-                                <th>Bids So Far</th>
-                                <th>Expires</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="td-bold">#J-7851</td>
-                                <td>⚡ Electrician</td>
-                                <td>Malaz, Riyadh</td>
-                                <td style="color:var(--gold);">SAR 250</td>
-                                <td>4</td>
-                                <td>38 min</td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td class="td-bold">#J-7848</td>
-                                <td>🔧 Plumber</td>
-                                <td>Northen Ring, Riyadh</td>
-                                <td style="color:var(--gold);">SAR 180</td>
-                                <td>2</td>
-                                <td>55 min</td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td class="td-bold">#J-7840</td>
-                                <td>⚡ Electrician</td>
-                                <td>Al Nakheel, Riyadh</td>
-                                <td style="color:var(--gold);">SAR 120</td>
-                                <td>6</td>
-                                <td>Expired</td>
-                                <td><span class="badge badge-muted">Lost</span></td>
+                                <td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem;">Loading…
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -198,8 +177,89 @@
             </div>
         </div>
     </div>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firestore-service.js"></script>
     <script src="../js/main.js"></script>
     <script>
+        // Check session
+        const user = getSession();
+        if (!user || user.role !== 'provider') {
+            window.location.href = 'register.html';
+        }
+
+        // Personalize dashboard
+        if (user) {
+            const name = user.name || 'Provider';
+            const firstName = name.split(' ')[0];
+            document.querySelector('.page-header h2').textContent = `Good Morning, ${firstName} 👋`;
+            document.querySelector('.topbar-actions div:last-child').textContent = `Welcome back, ${firstName}`;
+            // Sidebar name
+            const sidebarName = document.querySelector('.sidebar-footer .avatar + div div:first-child');
+            if (sidebarName) sidebarName.textContent = name;
+        }
+
+        // Load active jobs from Firestore
+        FirestoreService.onProviderJobs(user.uid, (jobs) => {
+            const tbody = document.querySelector('#activeJobsTable tbody');
+            tbody.innerHTML = '';
+            if (jobs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:2rem;">No active jobs yet. Browse available jobs to start bidding!</td></tr>';
+                return;
+            }
+            jobs.forEach(job => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="td-bold">#${job.id.substring(0, 6)}</td>
+                    <td>${job.category || 'Service'}</td>
+                    <td>${job.customerName || 'Customer'}</td>
+                    <td>${job.location || '—'}</td>
+                    <td style="color:var(--gold);">SAR ${job.acceptedAmount || '—'}</td>
+                    <td><span class="badge" style="background:var(--teal-dim);color:var(--teal);">${job.status === 'accepted' ? 'Accepted' : 'In Progress'}</span></td>
+                    <td><button class="btn btn-success btn-sm" onclick="completeJob('${job.id}')">✓ Complete</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        });
+
+        async function completeJob(requestId) {
+            try {
+                await FirestoreService.completeJob(requestId);
+                showToast('✅ Job marked complete!', 'success');
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        }
+
+        // Load provider's active bids
+        (async () => {
+            try {
+                const myBids = await FirestoreService.getProviderBids(user.uid);
+                const tbody = document.querySelector('#activeBidsTable tbody');
+                tbody.innerHTML = '';
+                if (myBids.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem;">No active bids. Go to Browse Jobs to submit bids.</td></tr>';
+                    return;
+                }
+                myBids.forEach(bid => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="td-bold">#${bid.requestId.substring(0, 6)}</td>
+                        <td>${bid.requestData?.category || 'Service'}</td>
+                        <td>${bid.requestData?.location || '—'}</td>
+                        <td style="color:var(--gold);">SAR ${bid.amount}</td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error loading bids:', err);
+            }
+        })();
+
         document.addEventListener('DOMContentLoaded', () => {
             createBarChart('earningsChart', ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'], [4200, 5800, 5100, 7200, 8400, 9100, 8420], 'Earnings SAR');
         });

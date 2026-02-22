@@ -169,7 +169,7 @@
                 <!-- Description -->
                 <div class="form-group">
                     <label>Describe what you need</label>
-                    <textarea class="form-control" rows="4"
+                    <textarea class="form-control" rows="4" id="descriptionInput"
                         placeholder="e.g. My living room light switch stopped working and I need it replaced…"></textarea>
                 </div>
 
@@ -189,7 +189,7 @@
                 <!-- Preferred time -->
                 <div class="form-group">
                     <label>Preferred Time</label>
-                    <select class="form-control">
+                    <select class="form-control" id="timeSelect">
                         <option>As soon as possible</option>
                         <option>Within 2 hours</option>
                         <option>Today afternoon</option>
@@ -202,8 +202,8 @@
                 <div class="form-group">
                     <label>Budget Range (SAR) — Optional</label>
                     <div style="display:flex; gap:0.5rem;">
-                        <input class="form-control" type="number" placeholder="Min" style="width:50%;" />
-                        <input class="form-control" type="number" placeholder="Max" style="width:50%;" />
+                        <input class="form-control" type="number" placeholder="Min" style="width:50%;" id="budgetMin" />
+                        <input class="form-control" type="number" placeholder="Max" style="width:50%;" id="budgetMax" />
                     </div>
                     <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;">Providers outside this
                         range may still bid. You're not obligated to accept.</div>
@@ -219,17 +219,63 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firestore-service.js"></script>
     <script src="../js/main.js"></script>
     <script>
+        // Check session
+        const user = getSession();
+        if (!user) { window.location.href = 'login.html'; }
+        else {
+            // Set avatar initial
+            const av = document.querySelector('.avatar');
+            if (av && user.name) av.textContent = user.name.charAt(0).toUpperCase();
+        }
+
         function selectCat(el) {
             document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('selected'));
             el.classList.add('selected');
         }
-        function submitRequest() {
+
+        async function submitRequest() {
+            const category = document.querySelector('.cat-pill.selected')?.textContent.trim() || 'General';
+            const description = document.getElementById('descriptionInput').value.trim();
+            const preferredTime = document.getElementById('timeSelect').value;
+            const budgetMin = document.getElementById('budgetMin').value || '';
+            const budgetMax = document.getElementById('budgetMax').value || '';
+
+            if (!description) {
+                showToast('Please describe what you need', 'warning');
+                return;
+            }
+
             const btn = event.target;
-            btn.innerHTML = '<span class="spinner"></span> Posting…';
+            btn.innerHTML = '<span class="loading-spinner"></span> Posting…';
             btn.disabled = true;
-            setTimeout(() => { window.location.href = 'bids.html'; }, 1500);
+
+            try {
+                const requestId = await FirestoreService.createServiceRequest({
+                    customerId: user.uid,
+                    customerName: user.name || user.email,
+                    category: category,
+                    description: description,
+                    location: 'Riyadh — Al Olaya District',
+                    preferredTime: preferredTime,
+                    budgetMin: budgetMin,
+                    budgetMax: budgetMax
+                });
+                showToast('✅ Request posted! Waiting for bids…', 'success');
+                setTimeout(() => { window.location.href = 'bids.html?requestId=' + requestId; }, 1200);
+            } catch (err) {
+                console.error(err);
+                showToast('Error posting request: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.innerHTML = '🚀 Post Service Request';
+            }
         }
     </script>
 </body>
